@@ -4,6 +4,9 @@ import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.util.Alarm
 
+/**
+ * Debounces document changes and invokes a sync callback when JS-originated updates are not in progress.
+ */
 class MarkdownDocumentChangeListener(
     private val isUpdatingFromJs: () -> Boolean,
     private val alarm: Alarm,

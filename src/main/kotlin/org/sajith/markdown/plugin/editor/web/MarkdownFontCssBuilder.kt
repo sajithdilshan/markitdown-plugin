@@ -1,5 +1,8 @@
 package org.sajith.markdown.plugin.editor.web
 
+/**
+ * Produces @font-face CSS for bundled editor fonts.
+ */
 object MarkdownFontCssBuilder {
     private data class FontFace(
         val path: String,
@@ -17,6 +20,7 @@ object MarkdownFontCssBuilder {
         FontFace("/markit/fonts/geist-mono-bold.ttf", "Geist Mono", "normal", "700"),
     )
 
+    /** Builds all font-face declarations using base64-encoded font files. */
     fun build(readBase64: (String) -> String): String {
         return fonts.joinToString("\n") { font ->
             val b64 = readBase64(font.path)

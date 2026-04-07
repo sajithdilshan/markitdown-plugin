@@ -6,6 +6,9 @@ import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandler
 import org.cef.handler.CefLoadHandlerAdapter
 
+/**
+ * Handles browser load callbacks and triggers bridge initialization once the main frame is ready.
+ */
 class MarkdownEditorLoadHandler(
     private val logger: Logger,
     private val onMainFrameLoadEnd: () -> Unit,

@@ -23,6 +23,9 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.BorderLayout
 
+/**
+ * IntelliJ FileEditor implementation that keeps a document and browser editor in sync.
+ */
 class MarkdownFileEditor(
     private val project: Project,
     private val file: VirtualFile,
@@ -104,6 +107,7 @@ class MarkdownFileEditor(
     private fun isDarkTheme(): Boolean = UIUtil.isUnderDarcula()
 
     private fun syncDocumentToPanel() {
+        // Prevent JS->document updates from re-triggering a document->panel sync loop.
         isUpdatingFromDocument = true
         try {
             panel?.setContent(document.text)
@@ -116,6 +120,7 @@ class MarkdownFileEditor(
         if (isUpdatingFromDocument) return
         writeAlarm.cancelAllRequests()
         writeAlarm.addRequest({
+            // Prevent document listener updates from bouncing back into another JS update.
             isUpdatingFromJs = true
             try {
                 WriteCommandAction.runWriteCommandAction(project) {
@@ -127,26 +132,35 @@ class MarkdownFileEditor(
         }, SYNC_DELAY_MS)
     }
 
+    /** Root Swing component shown by IntelliJ for this file editor. */
     override fun getComponent(): JComponent = wrapper
 
+    /** Preferred component to receive focus when editor is activated. */
     override fun getPreferredFocusedComponent(): JComponent? = panel?.component
 
+    /** Human-readable editor name displayed by IntelliJ. */
     override fun getName(): String = EDITOR_NAME
 
+    /** Restores editor state; unused because this editor has no persisted view state. */
     override fun setState(state: FileEditorState) {}
 
+    /** Returns true if the backing document has unsaved changes. */
     override fun isModified(): Boolean = FileDocumentManager.getInstance().isDocumentUnsaved(document)
 
+    /** Returns true while the underlying virtual file remains valid. */
     override fun isValid(): Boolean = file.isValid
 
     override fun addPropertyChangeListener(listener: PropertyChangeListener) {}
 
     override fun removePropertyChangeListener(listener: PropertyChangeListener) {}
 
+    /** Location tracking is not implemented for this editor. */
     override fun getCurrentLocation(): FileEditorLocation? = null
 
+    /** Returns the file currently opened by this editor instance. */
     override fun getFile(): VirtualFile = file
 
+    /** Disposes listeners and pending alarms owned by the editor. */
     override fun dispose() {
         syncAlarm.cancelAllRequests()
         writeAlarm.cancelAllRequests()

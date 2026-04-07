@@ -1,5 +1,8 @@
 package org.sajith.markdown.plugin.editor.web
 
+/**
+ * Collected editor assets inlined into the generated HTML page.
+ */
 data class MarkdownEditorHtmlAssets(
     val editorCss: String,
     val highlightCss: String,
@@ -11,7 +14,11 @@ data class MarkdownEditorHtmlAssets(
     val highlightPluginJs: String,
 )
 
+/**
+ * Builds the full HTML shell loaded into JCEF for the markdown editor.
+ */
 object MarkdownEditorHtmlBuilder {
+    /** Returns complete HTML with CSS/JS assets and editor host markup. */
     fun build(
         assets: MarkdownEditorHtmlAssets,
         fontCss: String,

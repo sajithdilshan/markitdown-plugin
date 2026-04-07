@@ -1,6 +1,10 @@
 package org.sajith.markdown.plugin.editor.web
 
+/**
+ * Builds the JavaScript bridge that initializes Toast UI and binds IDE callbacks.
+ */
 object MarkdownBridgeScriptBuilder {
+    /** Returns the bootstrap script with already-escaped markdown and injected query handlers. */
     fun build(
         escapedInitialMarkdown: String,
         contentChangedQueryInjection: String,

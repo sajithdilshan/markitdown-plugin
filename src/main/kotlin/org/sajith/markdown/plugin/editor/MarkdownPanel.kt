@@ -38,6 +38,7 @@ class MarkdownPanel(
     private var isEditorReady = false
     private var pendingMarkdown: String? = null
 
+    /** Swing component exposed to the file editor wrapper. */
     val component: JComponent get() = browser.component
 
     init {
@@ -79,6 +80,7 @@ class MarkdownPanel(
     private fun onEditorReady() {
         isEditorReady = true
         LOG.warn("[Markit] Editor is ready")
+        // Apply delayed content once the JS editor instance exists.
         pendingMarkdown?.let { pending ->
             pendingMarkdown = null
             setEditorMarkdown(pending)
@@ -102,6 +104,7 @@ class MarkdownPanel(
         )
     }
 
+    /** Updates editor markdown content, buffering if the JS editor is not ready yet. */
     fun setContent(markdown: String) {
         if (isEditorReady) {
             setEditorMarkdown(markdown)
@@ -110,6 +113,7 @@ class MarkdownPanel(
         }
     }
 
+    /** Updates dynamic editor CSS and Prism theme CSS in the embedded page. */
     fun updateTheme(css: String, isDark: Boolean = false) {
         val escaped = dependencies.escapeForSingleQuotedJsString(css)
         executeJs("document.getElementById('dynamic-style').textContent = '$escaped'")
@@ -147,6 +151,7 @@ class MarkdownPanel(
         private const val EMPTY_QUERY_RESPONSE = ""
         private val LOG = Logger.getInstance(MarkdownPanel::class.java)
 
+        /** Escapes arbitrary text as a quoted JavaScript string literal. */
         fun escapeForJs(value: String): String {
             val escaped = value
                 .replace("\\", "\\\\")

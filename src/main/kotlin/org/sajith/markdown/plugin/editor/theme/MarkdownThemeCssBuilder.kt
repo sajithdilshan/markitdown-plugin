@@ -2,8 +2,12 @@ package org.sajith.markdown.plugin.editor.theme
 
 import com.intellij.openapi.editor.colors.EditorColorsScheme
 
+/**
+ * Builds Toast UI editor CSS aligned with the current IntelliJ light/dark theme.
+ */
 object MarkdownThemeCssBuilder {
 
+    /** Returns the full editor CSS for the current theme mode and color scheme. */
     fun build(isDark: Boolean, scheme: EditorColorsScheme): String {
         return if (isDark) {
             buildDarkThemeCss()

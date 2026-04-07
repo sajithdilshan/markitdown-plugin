@@ -5,6 +5,9 @@ import org.cef.CefSettings
 import org.cef.browser.CefBrowser
 import org.cef.handler.CefDisplayHandlerAdapter
 
+/**
+ * Forwards JCEF console messages into IntelliJ logs with severity tags.
+ */
 class MarkdownConsoleDisplayHandler(
     private val logger: Logger,
 ) : CefDisplayHandlerAdapter() {

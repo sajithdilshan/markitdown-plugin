@@ -7,10 +7,15 @@ import org.sajith.markdown.plugin.editor.web.MarkdownEditorHtmlAssets
 import org.sajith.markdown.plugin.editor.web.MarkdownEditorHtmlBuilder
 import org.sajith.markdown.plugin.editor.web.MarkdownFontCssBuilder
 
+/**
+ * Aggregates collaborators used by [org.sajith.markdown.plugin.editor.MarkdownPanel]
+ * to build HTML, scripts, and theme CSS.
+ */
 class MarkdownPanelDependencies private constructor(
     private val initialThemeCss: String,
     private val resourceReader: ClasspathResourceReader,
 ) {
+    /** Builds the complete HTML page loaded into the embedded browser. */
     fun buildHtmlPage(): String {
         val assets = loadHtmlAssets()
         val fontCss = MarkdownFontCssBuilder.build(resourceReader::readBase64)
@@ -22,10 +27,12 @@ class MarkdownPanelDependencies private constructor(
         )
     }
 
+    /** Builds Prism theme CSS based on explicit or inferred light/dark mode. */
     fun buildPrismThemeCss(isDark: Boolean = isDarkThemeByInitialCss()): String {
         return MarkdownPrismThemeCssBuilder.build(isDark)
     }
 
+    /** Builds the editor bridge script with concrete JS query injections. */
     fun buildBridgeScript(
         escapedInitialMarkdown: String,
         contentChangedQueryInjection: String,
@@ -42,6 +49,7 @@ class MarkdownPanelDependencies private constructor(
         )
     }
 
+    /** Escapes CSS text for safe insertion into single-quoted JS strings. */
     fun escapeForSingleQuotedJsString(value: String): String {
         return value
             .replace("\\", "\\\\")
@@ -78,6 +86,7 @@ class MarkdownPanelDependencies private constructor(
         private const val PRISM_SQL_JS_PATH = "/markit/prism-sql.min.js"
         private const val HIGHLIGHT_PLUGIN_JS_PATH = "/markit/toastui-editor-plugin-code-syntax-highlight.js"
 
+        /** Creates dependency set using classpath resources anchored at the provided class. */
         fun create(
             initialThemeCss: String,
             resourceAnchor: Class<*>,

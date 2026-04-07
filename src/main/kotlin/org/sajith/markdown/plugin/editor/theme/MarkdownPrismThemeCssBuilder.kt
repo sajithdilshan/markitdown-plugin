@@ -1,6 +1,10 @@
 package org.sajith.markdown.plugin.editor.theme
 
+/**
+ * Builds Prism syntax highlighting CSS for light and dark modes.
+ */
 object MarkdownPrismThemeCssBuilder {
+    /** Returns Prism CSS for the selected theme mode. */
     fun build(isDark: Boolean): String {
         return if (isDark) {
             // Nord-inspired dark Prism theme
