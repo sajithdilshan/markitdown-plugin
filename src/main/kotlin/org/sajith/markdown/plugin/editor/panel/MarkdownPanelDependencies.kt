@@ -39,6 +39,7 @@ class MarkdownPanelDependencies private constructor(
         focusQueryInjection: String,
         blurQueryInjection: String,
         editorReadyQueryInjection: String,
+        findInPageQueryInjection: String,
     ): String {
         return MarkdownBridgeScriptBuilder.build(
             escapedInitialMarkdown = escapedInitialMarkdown,
@@ -46,6 +47,7 @@ class MarkdownPanelDependencies private constructor(
             focusQueryInjection = focusQueryInjection,
             blurQueryInjection = blurQueryInjection,
             editorReadyQueryInjection = editorReadyQueryInjection,
+            findInPageQueryInjection = findInPageQueryInjection,
         )
     }
 
