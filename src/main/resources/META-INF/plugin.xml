@@ -4,8 +4,14 @@
     <vendor>sajith</vendor>
 
     <description><![CDATA[
-    A WYSIWYG Markdown editor for IntelliJ IDEA.
-    Opens as an additional editor tab alongside the default text editor for .md files.
+    A WYSIWYG Markdown editor for IntelliJ IDEA focused on maximum readability and accessibility.
+    Opens as a dedicated tab alongside the default editor, rendering your content in a clean, high-comfort layout designed to eliminate eye strain during long writing sessions.
+
+    Key Features:
+    - High-Legibility Typography: Uses Atkinson Hyperlegible (by the Braille Institute) for body text and Geist Mono (by Vercel) for code blocks.
+    - WYSIWYG Editing: Real-time visual feedback with Toast UI Editor.
+    - Seamless Sync: Bi-directional synchronization with the standard IntelliJ editor.
+    - Theme Awareness: Automatically adapts to Light, Dark, and Darcula themes.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
