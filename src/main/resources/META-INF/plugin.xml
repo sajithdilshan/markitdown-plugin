@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>org.sajith.markdown.plugin</id>
+    <name>Markit Editor</name>
+    <vendor>sajith</vendor>
+
+    <description><![CDATA[
+    A WYSIWYG Markdown editor for IntelliJ IDEA.
+    Opens as an additional editor tab alongside the default text editor for .md files.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileEditorProvider
+            implementation="org.sajith.markdown.plugin.editor.MarkdownFileEditorProvider"/>
+    </extensions>
+</idea-plugin>

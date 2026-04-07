@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <!-- Document gradient -->
+    <linearGradient id="docGrad" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#4F9CF7"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <!-- Pencil body gradient -->
+    <linearGradient id="pencilGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="60%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+    <!-- Pencil eraser -->
+    <linearGradient id="eraserGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FB7185"/>
+      <stop offset="100%" stop-color="#E11D48"/>
+    </linearGradient>
+    <!-- Pencil tip -->
+    <linearGradient id="tipGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#FCD34D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Document / page -->
+  <rect x="2" y="4" width="26" height="33" rx="3" ry="3" fill="url(#docGrad)"/>
+  <!-- Page fold -->
+  <path d="M21 4 L28 4 L28 10 Q28 11 27 11 L21 11 Q20 11 20 10 L20 5 Q20 4 21 4 Z" fill="#2563EB" opacity="0.5"/>
+  <path d="M20 4 L20 10 Q20 11 21 11 L28 11" fill="none" stroke="#1D4ED8" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Document lines (subtle) -->
+  <line x1="6" y1="16" x2="17" y2="16" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+  <line x1="6" y1="20" x2="22" y2="20" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+  <line x1="6" y1="24" x2="19" y2="24" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- .MD text -->
+  <text x="7" y="32.5" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="9" fill="white" opacity="0.95">.MD</text>
+
+  <!-- Pencil (rotated, overlapping bottom-right) -->
+  <g transform="translate(22, 8) rotate(35)">
+    <!-- Eraser -->
+    <rect x="-1.8" y="-2" width="3.6" height="5" rx="1.5" fill="url(#eraserGrad)"/>
+    <!-- Ferrule (metal band) -->
+    <rect x="-2" y="3" width="4" height="2.5" rx="0.3" fill="#94A3B8"/>
+    <line x1="-2" y1="4" x2="2" y2="4" stroke="#CBD5E1" stroke-width="0.5"/>
+    <!-- Body -->
+    <rect x="-2" y="5.5" width="4" height="17" fill="url(#pencilGrad)"/>
+    <!-- Body detail lines -->
+    <line x1="-0.5" y1="5.5" x2="-0.5" y2="22.5" stroke="#E8720C" stroke-width="0.3" opacity="0.5"/>
+    <line x1="0.5" y1="5.5" x2="0.5" y2="22.5" stroke="#FBC16A" stroke-width="0.3" opacity="0.4"/>
+    <!-- Tip cone -->
+    <polygon points="-2,22.5 2,22.5 0,28" fill="url(#tipGrad)"/>
+    <!-- Tip point -->
+    <polygon points="-0.5,27 0.5,27 0,29" fill="#374151"/>
+  </g>
+</svg>
