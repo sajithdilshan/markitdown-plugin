@@ -51,7 +51,7 @@ object MarkdownEditorHtmlBuilder {
                         line-height: var(--body-line-height);
                     }
                     .toastui-editor-contents p {
-                        margin: 0 0 calc(var(--base-size) * var(--phi) * 0.5) 0;
+                        margin: 0 0 1.2em 0;
                     }
                     .toastui-editor-contents h1,
                     .toastui-editor-contents h2,
@@ -59,21 +59,21 @@ object MarkdownEditorHtmlBuilder {
                     .toastui-editor-contents h4,
                     .toastui-editor-contents h5,
                     .toastui-editor-contents h6 {
-                        margin-top: calc(var(--base-size) * var(--phi));
-                        margin-bottom: calc(var(--base-size) * var(--phi) * 0.5);
+                        margin-top: 1.6em;
+                        margin-bottom: 0.8em;
                     }
                     .toastui-editor-contents ul,
                     .toastui-editor-contents ol {
-                        margin: 0 0 calc(var(--base-size) * var(--phi) * 0.5) 0;
+                        margin: 0 0 1.2em 0;
                     }
                     .toastui-editor-contents blockquote {
-                        margin: 0 0 calc(var(--base-size) * var(--phi) * 0.5) 0;
+                        margin: 0 0 1.2em 0;
                     }
                     .toastui-editor-contents pre {
-                        margin: 0 0 calc(var(--base-size) * var(--phi) * 0.5) 0;
+                        margin: 0 0 1.2em 0;
                     }
                     .toastui-editor-contents hr {
-                        margin: calc(var(--base-size) * var(--phi)) 0;
+                        margin: 1.6em 0;
                     }
                     .toastui-editor-contents table {
                         width: 100%;

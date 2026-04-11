@@ -39,6 +39,19 @@ object MarkdownBridgeScriptBuilder {
 
                 window.markitEditor = editor;
 
+                // Show scrollbar on scroll, hide after 1s idle
+                (function() {
+                    var scrollTimer = null;
+                    var scrollContainer = document.querySelector('.toastui-editor-ww-container') || document.body;
+                    scrollContainer.addEventListener('scroll', function() {
+                        document.body.classList.add('is-scrolling');
+                        if (scrollTimer) clearTimeout(scrollTimer);
+                        scrollTimer = setTimeout(function() {
+                            document.body.classList.remove('is-scrolling');
+                        }, 1000);
+                    }, true);
+                })();
+
                 function createFindReplaceBridge(editor) {
                     function escapeHtml(value) {
                         return value

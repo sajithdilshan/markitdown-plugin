@@ -21,18 +21,18 @@ object MarkdownPrismThemeCssBuilder {
             .token.regex, .token.important, .token.variable { color: #D8DEE9; }
             """.trimIndent()
         } else {
-            // Light Prism theme
+            // Solarized Light Prism theme
             """
-            code[class*="language-"], pre[class*="language-"] { color: #383a42; }
-            .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #a0a1a7; }
-            .token.punctuation { color: #383a42; }
-            .token.property, .token.tag, .token.constant, .token.symbol, .token.deleted { color: #e45649; }
-            .token.boolean, .token.number { color: #986801; }
-            .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #50a14f; }
-            .token.operator, .token.entity, .token.url { color: #0184bc; }
-            .token.atrule, .token.attr-value, .token.keyword { color: #a626a4; }
-            .token.function, .token.class-name { color: #4078f2; }
-            .token.regex, .token.important, .token.variable { color: #986801; }
+            code[class*="language-"], pre[class*="language-"] { color: #586e75; }
+            .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #93a1a1; }
+            .token.punctuation { color: #586e75; }
+            .token.property, .token.tag, .token.constant, .token.symbol, .token.deleted { color: #1D6FA8; }
+            .token.boolean, .token.number { color: #b46216; }
+            .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #1D756E; }
+            .token.operator, .token.entity, .token.url { color: #8B6914; }
+            .token.atrule, .token.attr-value, .token.keyword { color: #8B6914; }
+            .token.function, .token.class-name { color: #1D6FA8; }
+            .token.regex, .token.important, .token.variable { color: #b46216; }
             """.trimIndent()
         }
     }

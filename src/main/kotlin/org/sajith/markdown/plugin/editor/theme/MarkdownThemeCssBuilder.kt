@@ -20,15 +20,15 @@ object MarkdownThemeCssBuilder {
         // Nord-inspired dark theme
         val bg = "#1E2127"
         val fg = "#7B88A1"
-        val headingFg = "#D8DEE9"
-        val borderColor = "#4C566A"
+        val headingFg = "#A8B4C4"
+        val borderColor = "#647080"
         val toolbarBg = "#272930"
         val selectionBg = "#434C5E"
         val codeBg = "#272930"
         val hoverBg = "#434C5E"
-        val linkColor = "#88C0D0"
+        val linkColor = "#6EA8B8"
         val quoteFg = "#8597BC"
-        val stringColor = "#A3BE8C"
+        val stringColor = "#8BA877"
 
         return """
             body { background: $bg; }
@@ -63,6 +63,7 @@ object MarkdownThemeCssBuilder {
             .toastui-editor-contents strong { color: $headingFg; }
             .toastui-editor-contents em { color: #81A1C1; }
             .toastui-editor-contents table th { background: $toolbarBg; border-color: $borderColor; color: $headingFg; }
+            .toastui-editor-contents th p { color: $headingFg; }
             .toastui-editor-contents table td { border-color: $borderColor; color: $fg; }
             .toastui-editor-contents hr { border-color: $borderColor; }
             .toastui-editor-md-container .toastui-editor-contents { color: $fg; }
@@ -80,70 +81,90 @@ object MarkdownThemeCssBuilder {
             .toastui-editor-popup-add-heading ul li { color: $fg; }
             .toastui-editor-popup-add-heading ul li:hover { background: $hoverBg; }
 
-            /* Scrollbar */
+            /* Scrollbar - hidden by default, visible on scroll or scrollbar hover */
             ::-webkit-scrollbar { width: 8px; height: 8px; }
-            ::-webkit-scrollbar-track { background: $bg; }
-            ::-webkit-scrollbar-thumb { background: $borderColor; border-radius: 4px; }
+            ::-webkit-scrollbar-track { background: transparent; }
+            ::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background 0.3s; }
+            ::-webkit-scrollbar-corner { background: transparent; }
             ::-webkit-scrollbar-thumb:hover { background: #5E6779; }
-            ::-webkit-scrollbar-corner { background: $bg; }
+            .is-scrolling ::-webkit-scrollbar-thumb { background: $borderColor; }
+            .is-scrolling ::-webkit-scrollbar-thumb:hover { background: #5E6779; }
         """.trimIndent()
     }
 
     private fun buildLightThemeCss(scheme: EditorColorsScheme): String {
-        val bg = colorToHex(scheme.defaultBackground)
-        val fg = colorToHex(scheme.defaultForeground)
+        // Solarized Light theme (contrast-adjusted)
+        val bg = "#fdf6e3"
+        val fg = "#586e75"
+        val headingFg = "#8B6914"
+        val borderColor = "#7B8C8C"
+        val toolbarBg = "#eee8d5"
+        val selectionBg = "#eee8d5"
+        val codeBg = "#f5edd9"
+        val hoverBg = "#e5dece"
+        val linkColor = "#1D6FA8"
+        val quoteFg = "#576C74"
+        val stringColor = "#1D756E"
 
         return """
             body { background: $bg; }
 
             /* Main container */
-            .toastui-editor-defaultUI { border-color: #d1d5da; background: $bg; }
+            .toastui-editor-defaultUI { border-color: $borderColor; background: $bg; }
             .toastui-editor-main { background: $bg; }
             .toastui-editor-main-container { background: $bg; }
             .toastui-editor-ww-container { background: $bg; }
             .toastui-editor-md-container { background: $bg; }
 
             /* Toolbar */
-            .toastui-editor-defaultUI-toolbar { background-color: #f5f5f5; border-color: #d1d5da; }
+            .toastui-editor-defaultUI-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
             .toastui-editor-defaultUI-toolbar button { border-color: transparent !important; background-color: transparent; }
-            .toastui-editor-defaultUI-toolbar button:not(:disabled):hover { background-color: #fff; border-color: #d1d5da !important; }
+            .toastui-editor-defaultUI-toolbar button:not(:disabled):hover { background-color: $hoverBg; border-color: $borderColor !important; }
             .toastui-editor-toolbar-icons { filter: invert(0) !important; }
             .toastui-editor-toolbar-icons:not(:disabled).active { filter: invert(0) !important; }
-            .toastui-editor-toolbar-divider { background-color: #d1d5da; }
-            .toastui-editor-dropdown-toolbar { background-color: #f5f5f5; border-color: #d1d5da; }
+            .toastui-editor-toolbar-divider { background-color: $borderColor; }
+            .toastui-editor-dropdown-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
 
             /* Content */
             .toastui-editor-contents { color: $fg; }
             .toastui-editor-contents p, .toastui-editor-contents li { color: $fg; }
             .toastui-editor-contents h1, .toastui-editor-contents h2,
             .toastui-editor-contents h3, .toastui-editor-contents h4,
-            .toastui-editor-contents h5, .toastui-editor-contents h6 { color: $fg; border-color: #d1d5da; }
-            .toastui-editor-contents blockquote { border-color: #d1d5da; color: #666; }
-            .toastui-editor-contents pre { background: #f5f7f9; }
-            .toastui-editor-contents code { background: #f5f7f9; color: $fg; }
-            .toastui-editor-contents a { color: #4078c0; }
-            .toastui-editor-contents table th { background: #f5f5f5; border-color: #d1d5da; color: $fg; }
-            .toastui-editor-contents table td { border-color: #d1d5da; color: $fg; }
+            .toastui-editor-contents h5, .toastui-editor-contents h6 { color: $headingFg; border-color: $borderColor; }
+            .toastui-editor-contents blockquote { border-color: $borderColor; color: $quoteFg; }
+            .toastui-editor-contents pre { background: $codeBg; }
+            .toastui-editor-contents code { background: $codeBg; color: $stringColor; }
+            .toastui-editor-contents pre code { color: $fg; }
+            .toastui-editor-contents a { color: $linkColor; }
+            .toastui-editor-contents strong { color: $headingFg; }
+            .toastui-editor-contents em { color: #5A5EAE; }
+            .toastui-editor-contents table th { background: $toolbarBg; border-color: $borderColor; color: $headingFg; }
+            .toastui-editor-contents th p { color: $headingFg; }
+            .toastui-editor-contents table td { border-color: $borderColor; color: $fg; }
+            .toastui-editor-contents hr { border-color: $borderColor; }
             .toastui-editor-md-container .toastui-editor-contents { color: $fg; }
-            .ProseMirror { color: $fg; }
-            .toastui-editor-contents ::selection { background: #b3d4fc; }
+            .ProseMirror { color: $fg; caret-color: #dc322f; }
+            .ProseMirror .placeholder { color: $borderColor; }
+            .toastui-editor-contents ::selection { background: $selectionBg; }
 
             /* Mode switch - hidden, we only use WYSIWYG mode */
             .toastui-editor-mode-switch { display: none !important; }
 
             /* Popups */
-            .toastui-editor-popup { background: #fff; border-color: #d1d5da; }
+            .toastui-editor-popup { background: $bg; border-color: $borderColor; }
             .toastui-editor-popup-body label { color: $fg; }
-            .toastui-editor-popup-body input[type=text] { background: $bg; color: $fg; border-color: #d1d5da; }
+            .toastui-editor-popup-body input[type=text] { background: $toolbarBg; color: $fg; border-color: $borderColor; }
             .toastui-editor-popup-add-heading ul li { color: $fg; }
-            .toastui-editor-popup-add-heading ul li:hover { background: #f5f5f5; }
+            .toastui-editor-popup-add-heading ul li:hover { background: $hoverBg; }
 
-            /* Scrollbar */
+            /* Scrollbar - hidden by default, visible on scroll or scrollbar hover */
             ::-webkit-scrollbar { width: 8px; height: 8px; }
-            ::-webkit-scrollbar-track { background: $bg; }
-            ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
-            ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
-            ::-webkit-scrollbar-corner { background: $bg; }
+            ::-webkit-scrollbar-track { background: transparent; }
+            ::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background 0.3s; }
+            ::-webkit-scrollbar-corner { background: transparent; }
+            ::-webkit-scrollbar-thumb:hover { background: #657373; }
+            .is-scrolling ::-webkit-scrollbar-thumb { background: $borderColor; }
+            .is-scrolling ::-webkit-scrollbar-thumb:hover { background: #657373; }
         """.trimIndent()
     }
 
