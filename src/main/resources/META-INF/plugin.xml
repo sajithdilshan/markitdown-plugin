@@ -1,7 +1,8 @@
 <idea-plugin>
     <id>org.sajith.markdown.plugin</id>
     <name>Markit Editor</name>
-    <vendor>sajith</vendor>
+    <version>0.2.0</version>
+    <vendor>Sajith Edirisinghe</vendor>
 
     <description><![CDATA[
     A WYSIWYG Markdown editor for IntelliJ IDEA focused on maximum readability and accessibility.
