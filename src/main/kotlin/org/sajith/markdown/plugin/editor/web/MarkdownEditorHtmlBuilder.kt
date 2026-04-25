@@ -95,10 +95,89 @@ object MarkdownEditorHtmlBuilder {
                         font-size: var(--code-size);
                         line-height: var(--code-line-height);
                     }
-                    .toastui-editor-md-container .CodeMirror {
-                        font-family: 'Geist Mono', monospace;
-                        font-size: var(--code-size);
-                        line-height: var(--code-line-height);
+                    .toastui-editor-md-container .ProseMirror,
+                    .toastui-editor-md-container .ProseMirror * {
+                        font-family: 'Geist Mono', monospace !important;
+                        font-size: var(--code-size) !important;
+                        line-height: var(--phi) !important;
+                    }
+                    .toastui-editor-md-container .ProseMirror {
+                        max-width: 650px;
+                        margin: 0 auto;
+                    }
+                    .toastui-editor-md-container .toastui-editor-md-heading { font-weight: 700; }
+                    .toastui-editor-md-container .toastui-editor-md-block-quote {
+                        font-style: italic;
+                    }
+                    .toastui-editor-md-splitter {
+                        display: none !important;
+                    }
+                    .toastui-editor-md-preview {
+                        display: none !important;
+                    }
+                    .toastui-editor-md-container .toastui-editor {
+                        width: 100% !important;
+                    }
+                    /* Hide Toast UI's own mode switch (we use our own toggle). */
+                    .toastui-editor-mode-switch {
+                        display: none !important;
+                    }
+                    /* Toolbar visibility controlled via body class on mode switch. */
+                    body.markit-mode-markdown .toastui-editor-defaultUI-toolbar {
+                        display: none !important;
+                    }
+                    /* Hide the library's Write/Preview tab strip. */
+                    .toastui-editor-md-tab-container,
+                    .toastui-editor-md-container .toastui-editor-tabs {
+                        display: none !important;
+                    }
+                    /* Reserve space on the toolbar's right edge for our toggle. */
+                    body.markit-mode-wysiwyg .toastui-editor-defaultUI-toolbar {
+                        padding-right: 92px;
+                    }
+                    .markit-mode-toggle {
+                        position: fixed;
+                        top: 8px;
+                        right: 12px;
+                        z-index: 99998;
+                        display: inline-flex;
+                        gap: 0;
+                        padding: 2px;
+                        border-radius: 6px;
+                        background: var(--markit-toggle-bg, rgba(127, 127, 127, 0.12));
+                        border: 1px solid var(--markit-toggle-border, rgba(127, 127, 127, 0.28));
+                        user-select: none;
+                    }
+                    .markit-mode-toggle button {
+                        border: 0;
+                        background: transparent;
+                        color: var(--markit-toggle-fg, #888);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0.72;
+                        transition: opacity 0.15s, background 0.15s;
+                    }
+                    .markit-mode-toggle button:hover {
+                        opacity: 1;
+                    }
+                    .markit-mode-toggle button.is-active {
+                        background: var(--markit-toggle-active-bg, rgba(127, 127, 127, 0.24));
+                        color: var(--markit-toggle-active-fg, var(--markit-toggle-fg, #888));
+                        opacity: 1;
+                    }
+                    .markit-mode-toggle button svg {
+                        width: 14px;
+                        height: 14px;
+                        display: block;
+                        fill: none;
+                        stroke: currentColor;
+                        stroke-width: 1.8;
+                        stroke-linecap: round;
+                        stroke-linejoin: round;
                     }
                 </style>
             </head>

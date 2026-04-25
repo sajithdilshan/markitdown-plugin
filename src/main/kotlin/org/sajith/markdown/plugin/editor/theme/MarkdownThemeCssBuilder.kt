@@ -31,7 +31,14 @@ object MarkdownThemeCssBuilder {
         val stringColor = "#8BA877"
 
         return """
-            body { background: $bg; }
+            body {
+                background: $bg;
+                --markit-toggle-bg: rgba(255, 255, 255, 0.06);
+                --markit-toggle-border: $borderColor;
+                --markit-toggle-fg: $headingFg;
+                --markit-toggle-active-bg: $hoverBg;
+                --markit-toggle-active-fg: #E6EDF3;
+            }
 
             /* Main container */
             .toastui-editor-defaultUI { border-color: $borderColor; background: $bg; }
@@ -74,6 +81,28 @@ object MarkdownThemeCssBuilder {
             /* Mode switch - hidden, we only use WYSIWYG mode */
             .toastui-editor-mode-switch { display: none !important; }
 
+            /* Markdown-mode (ProseMirror) source view */
+            .toastui-editor-md-container .ProseMirror { background: $bg; color: $fg; caret-color: #D8DEE9; }
+            .toastui-editor-md-container .ProseMirror ::selection { background: $selectionBg; }
+            .toastui-editor-md-container .toastui-editor-md-heading { color: $headingFg; font-weight: 600; }
+            .toastui-editor-md-container .toastui-editor-md-strong { color: $headingFg; font-weight: 700; }
+            .toastui-editor-md-container .toastui-editor-md-emph { color: #81A1C1; font-style: italic; }
+            .toastui-editor-md-container .toastui-editor-md-link { color: $linkColor; }
+            .toastui-editor-md-container .toastui-editor-md-link-url { color: $linkColor; text-decoration: underline; }
+            .toastui-editor-md-container .toastui-editor-md-code { color: $stringColor !important; background-color: $codeBg !important; }
+            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-marked-text { color: $stringColor !important; }
+            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-delimiter { color: $stringColor !important; }
+            .toastui-editor-md-container .toastui-editor-md-code-block { color: $fg; }
+            .toastui-editor-md-container .toastui-editor-md-code-block-line-background { background-color: $codeBg !important; }
+            .toastui-editor-md-container .toastui-editor-md-block-quote { color: $quoteFg; font-style: italic; }
+            .toastui-editor-md-container .toastui-editor-md-thematic-break { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-list-item-style { color: $linkColor; }
+            .toastui-editor-md-container .toastui-editor-md-meta { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-delimiter { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-marked-text { color: $fg; }
+            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-table-cell { color: $fg !important; }
+            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-delimiter { color: $borderColor !important; }
+
             /* Popups */
             .toastui-editor-popup { background: $toolbarBg; border-color: $borderColor; }
             .toastui-editor-popup-body label { color: $fg; }
@@ -107,7 +136,14 @@ object MarkdownThemeCssBuilder {
         val stringColor = "#1D756E"
 
         return """
-            body { background: $bg; }
+            body {
+                background: $bg;
+                --markit-toggle-bg: rgba(0, 0, 0, 0.04);
+                --markit-toggle-border: $borderColor;
+                --markit-toggle-fg: $headingFg;
+                --markit-toggle-active-bg: $hoverBg;
+                --markit-toggle-active-fg: #2B2B2B;
+            }
 
             /* Main container */
             .toastui-editor-defaultUI { border-color: $borderColor; background: $bg; }
@@ -149,6 +185,28 @@ object MarkdownThemeCssBuilder {
 
             /* Mode switch - hidden, we only use WYSIWYG mode */
             .toastui-editor-mode-switch { display: none !important; }
+
+            /* Markdown-mode (ProseMirror) source view */
+            .toastui-editor-md-container .ProseMirror { background: $bg; color: $fg; caret-color: #dc322f; }
+            .toastui-editor-md-container .ProseMirror ::selection { background: $selectionBg; }
+            .toastui-editor-md-container .toastui-editor-md-heading { color: $headingFg; font-weight: 600; }
+            .toastui-editor-md-container .toastui-editor-md-strong { color: $headingFg; font-weight: 700; }
+            .toastui-editor-md-container .toastui-editor-md-emph { color: #5A5EAE; font-style: italic; }
+            .toastui-editor-md-container .toastui-editor-md-link { color: $linkColor; }
+            .toastui-editor-md-container .toastui-editor-md-link-url { color: $linkColor; text-decoration: underline; }
+            .toastui-editor-md-container .toastui-editor-md-code { color: $stringColor !important; background-color: $codeBg !important; }
+            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-marked-text { color: $stringColor !important; }
+            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-delimiter { color: $stringColor !important; }
+            .toastui-editor-md-container .toastui-editor-md-code-block { color: $fg; }
+            .toastui-editor-md-container .toastui-editor-md-code-block-line-background { background-color: $codeBg !important; }
+            .toastui-editor-md-container .toastui-editor-md-block-quote { color: $quoteFg; font-style: italic; }
+            .toastui-editor-md-container .toastui-editor-md-thematic-break { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-list-item-style { color: $linkColor; }
+            .toastui-editor-md-container .toastui-editor-md-meta { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-delimiter { color: $borderColor; }
+            .toastui-editor-md-container .toastui-editor-md-marked-text { color: $fg; }
+            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-table-cell { color: $fg !important; }
+            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-delimiter { color: $borderColor !important; }
 
             /* Popups */
             .toastui-editor-popup { background: $bg; border-color: $borderColor; }
