@@ -5,7 +5,7 @@ import { EditorView } from '@codemirror/view';
  * with neutral fallbacks so the editor is readable before theming.
  */
 export const livePreviewTheme = EditorView.baseTheme({
-  // Headings scale from the 17px body: 1.9 / 1.5 / 1.25 / 1.1 / 1 / 0.9.
+  // Headings scale from the body size: 1.9 / 1.5 / 1.25 / 1.1 / 1 / 0.9.
   '.lm-heading': { fontWeight: '700', lineHeight: '1.3', color: 'var(--md-heading, inherit)' },
   '.lm-h1': { fontSize: '1.9em', paddingTop: '0.4em', paddingBottom: '0.2em' },
   '.lm-h2': { fontSize: '1.5em', paddingTop: '0.35em', paddingBottom: '0.15em' },
@@ -40,7 +40,8 @@ export const livePreviewTheme = EditorView.baseTheme({
     fontWeight: '700',
     color: 'var(--md-accent, inherit)',
   },
-  '.lm-list-number': { fontVariantNumeric: 'tabular-nums', color: 'var(--md-accent, inherit)' },
+  // The number is also tokenised as markdown syntax; override its muted syntax colour on the inner span.
+  '.lm-list-number, .lm-list-number span': { fontVariantNumeric: 'tabular-nums', color: 'var(--md-accent, inherit)' },
   '.lm-checkbox': { margin: '0 0.35em 0 0', verticalAlign: 'middle', cursor: 'pointer', accentColor: 'var(--md-accent, auto)' },
 
   '.lm-quote': {
