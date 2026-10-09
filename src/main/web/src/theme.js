@@ -6,7 +6,7 @@ import { tags } from '@lezer/highlight';
 export const editorTheme = EditorView.theme({
   '&': { color: 'var(--md-fg)', backgroundColor: 'var(--md-bg)' },
   '&.cm-focused': { outline: 'none' },
-  '.cm-content': { caretColor: 'var(--md-caret)' },
+  '.cm-content': { caretColor: 'var(--md-caret)', cursor: 'text' },
   '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--md-caret)' },
   '&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground': {
     background: 'var(--md-selection)',

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.sajith.markdown.plugin</id>
     <name>Markit Editor</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <vendor>Sajith Edirisinghe</vendor>
 
     <description><![CDATA[
@@ -16,6 +16,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    <h3>1.0.1</h3>
+    <ul>
+        <li>The mouse pointer now shows a text cursor over the document (and a hand over images, checkboxes and diagrams).</li>
+        <li>Fixed clicks on the lower part of a heading selecting the next line in documents containing tables or Mermaid diagrams.</li>
+    </ul>
     <h3>1.0.0</h3>
     <ul>
         <li>Initial release: Typora-style live preview Markdown editor built on CodeMirror 6, opened as a tab alongside the default editor.</li>

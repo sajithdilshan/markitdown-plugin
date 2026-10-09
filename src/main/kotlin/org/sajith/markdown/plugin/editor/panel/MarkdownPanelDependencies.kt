@@ -34,6 +34,7 @@ class MarkdownPanelDependencies private constructor(
         editorReadyQueryInjection: String,
         imageQueryInjection: String,
         scriptQueryInjection: String,
+        cursorQueryInjection: String,
     ): String {
         return MarkdownBridgeScriptBuilder.build(
             escapedInitialMarkdown = escapedInitialMarkdown,
@@ -43,6 +44,7 @@ class MarkdownPanelDependencies private constructor(
             editorReadyQueryInjection = editorReadyQueryInjection,
             imageQueryInjection = imageQueryInjection,
             scriptQueryInjection = scriptQueryInjection,
+            cursorQueryInjection = cursorQueryInjection,
         )
     }
 

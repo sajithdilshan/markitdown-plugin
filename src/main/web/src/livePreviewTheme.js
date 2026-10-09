@@ -80,11 +80,11 @@ export const livePreviewTheme = EditorView.baseTheme({
     opacity: '0.7',
   },
 
+  '.lm-mermaid-block': { padding: '0.4em 0' },
   '.lm-mermaid': {
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
-    margin: '0.4em 0',
     padding: '0.6em',
     borderRadius: '6px',
     background: 'var(--md-code-bg, rgba(127, 127, 127, 0.1))',
@@ -100,7 +100,8 @@ export const livePreviewTheme = EditorView.baseTheme({
     color: 'var(--md-tok-keyword, #c0392b)',
   },
 
-  '.lm-table-wrap': { overflowX: 'auto', margin: '0.4em 0', cursor: 'text' },
+  // Block widgets space themselves with padding: CodeMirror's height map ignores margins, which shifts clicks below them.
+  '.lm-table-wrap': { overflowX: 'auto', padding: '0.4em 0', cursor: 'text' },
   '.lm-table': {
     borderCollapse: 'collapse',
     width: '100%',

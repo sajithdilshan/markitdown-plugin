@@ -13,6 +13,7 @@ object MarkdownBridgeScriptBuilder {
         editorReadyQueryInjection: String,
         imageQueryInjection: String,
         scriptQueryInjection: String,
+        cursorQueryInjection: String,
     ): String {
         return """
             (function() {
@@ -43,6 +44,9 @@ object MarkdownBridgeScriptBuilder {
                         return new Promise(function(resolve, reject) {
                             $scriptQueryInjection
                         });
+                    },
+                    onCursor: function(cursor) {
+                        $cursorQueryInjection
                     }
                 });
 

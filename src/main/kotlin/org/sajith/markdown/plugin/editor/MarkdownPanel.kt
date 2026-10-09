@@ -10,8 +10,10 @@ import org.sajith.markdown.plugin.editor.handlers.MarkdownConsoleDisplayHandler
 import org.sajith.markdown.plugin.editor.handlers.MarkdownEditorLoadHandler
 import org.sajith.markdown.plugin.editor.panel.MarkdownPanelDependencies
 import org.sajith.markdown.plugin.editor.web.MarkdownImageResolver
+import java.awt.Cursor
 import java.nio.file.Path
 import javax.swing.JComponent
+import javax.swing.SwingUtilities
 
 /**
  * JCEF panel hosting the CodeMirror-based markdown editor.
@@ -38,6 +40,7 @@ class MarkdownPanel(
     private val blurQuery = createQuery()
     private val imageQuery = createQuery()
     private val scriptQuery = createQuery()
+    private val cursorQuery = createQuery()
     private val imageResolver = MarkdownImageResolver(baseDirectory)
 
     @Volatile
@@ -90,6 +93,17 @@ class MarkdownPanel(
         scriptQuery.addHandler { name ->
             dependencies.readOnDemandScript(name)?.let { JBCefJSQuery.Response(it) }
                 ?: JBCefJSQuery.Response(null, NOT_FOUND_CODE, "Unknown script: $name")
+        }
+
+        // The off-screen browser doesn't forward Chromium's cursor changes, so the page reports them.
+        cursorQuery.addHandler { cursor ->
+            val type = when (cursor) {
+                "text" -> Cursor.TEXT_CURSOR
+                "pointer" -> Cursor.HAND_CURSOR
+                else -> Cursor.DEFAULT_CURSOR
+            }
+            SwingUtilities.invokeLater { browser.cefBrowser.uiComponent?.cursor = Cursor.getPredefinedCursor(type) }
+            JBCefJSQuery.Response(EMPTY_QUERY_RESPONSE)
         }
     }
 
@@ -154,6 +168,7 @@ class MarkdownPanel(
                 "resolve",
                 "function(code, message) { reject(new Error(message)); }",
             ),
+            cursorQueryInjection = cursorQuery.inject("cursor"),
         )
     }
 
@@ -167,7 +182,7 @@ class MarkdownPanel(
     }
 
     override fun dispose() {
-        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, imageQuery, scriptQuery).forEach(Disposer::dispose)
+        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, imageQuery, scriptQuery, cursorQuery).forEach(Disposer::dispose)
         Disposer.dispose(browser)
     }
 

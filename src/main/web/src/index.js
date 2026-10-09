@@ -10,6 +10,7 @@ import { mermaidExtension, refreshDiagramTheme, scriptLoader } from './mermaid.j
 import { editorTheme, highlightStyle } from './theme.js';
 import { findReplace } from './findReplace.js';
 import { formattingKeymap } from './formatting.js';
+import { trackHostCursor } from './hostCursor.js';
 
 /** Marks transactions that originate from the IDE so they are not echoed back to it. */
 const fromHost = Annotation.define();
@@ -32,7 +33,7 @@ function minimalChange(oldText, newText) {
 /**
  * Creates the CodeMirror markdown editor and returns the API used by the Kotlin bridge.
  * Options: { parent, initialValue, onChange(md), onFocus(), onBlur(), resolveImage(src) -> Promise<url>,
- *   loadScript(name) -> Promise<source> }.
+ *   loadScript(name) -> Promise<source>, onCursor('text' | 'pointer' | 'default') }.
  */
 function createMarkitEditor(options) {
   const onChange = options.onChange || (() => {});
@@ -70,6 +71,8 @@ function createMarkitEditor(options) {
       ],
     }),
   });
+
+  if (options.onCursor) trackHostCursor(options.onCursor);
 
   return {
     view,

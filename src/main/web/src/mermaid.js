@@ -89,7 +89,9 @@ class MermaidWidget extends WidgetType {
   }
 
   toDOM(view) {
-    const wrap = document.createElement('div');
+    const block = document.createElement('div');
+    block.className = 'lm-mermaid-block';
+    const wrap = block.appendChild(document.createElement('div'));
     wrap.className = 'lm-mermaid';
     wrap.textContent = 'Rendering diagram…';
     renderDiagram(view, this.source, this.theme).then(
@@ -110,7 +112,7 @@ class MermaidWidget extends WidgetType {
       view.dispatch({ selection: { anchor: view.posAtDOM(wrap) } });
       view.focus();
     });
-    return wrap;
+    return block;
   }
 }
 
