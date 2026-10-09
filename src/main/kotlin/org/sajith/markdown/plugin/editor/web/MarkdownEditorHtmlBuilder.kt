@@ -15,7 +15,6 @@ object MarkdownEditorHtmlBuilder {
     fun build(
         assets: MarkdownEditorHtmlAssets,
         fontCss: String,
-        prismThemeCss: String,
         initialThemeCss: String,
     ): String {
         return """
@@ -24,7 +23,6 @@ object MarkdownEditorHtmlBuilder {
             <head>
                 <meta charset="UTF-8">
                 <style>$fontCss</style>
-                <style id="prism-theme">$prismThemeCss</style>
                 <style id="dynamic-style">$initialThemeCss</style>
                 <style>
                     :root {
@@ -39,7 +37,7 @@ object MarkdownEditorHtmlBuilder {
                     #editor .cm-editor { height: 100%; }
                     #editor .cm-editor.cm-focused { outline: none; }
                     #editor .cm-scroller {
-                        font-family: 'Atkinson Hyperlegible', sans-serif;
+                        font-family: 'NV Palatium', 'Palatino Linotype', Palatino, serif;
                         font-size: var(--base-size);
                         line-height: var(--body-line-height);
                     }

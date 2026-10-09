@@ -131,14 +131,10 @@ class MarkdownPanel(
         }
     }
 
-    /** Updates dynamic editor CSS and Prism theme CSS in the embedded page. */
-    fun updateTheme(css: String, isDark: Boolean = false) {
+    /** Updates the dynamic theme CSS (colour variables) in the embedded page. */
+    fun updateTheme(css: String) {
         val escaped = dependencies.escapeForSingleQuotedJsString(css)
         executeJs("document.getElementById('dynamic-style').textContent = '$escaped'")
-
-        val prismCss = dependencies.buildPrismThemeCss(isDark)
-        val escapedPrism = dependencies.escapeForSingleQuotedJsString(prismCss)
-        executeJs("document.getElementById('prism-theme').textContent = '$escapedPrism'")
     }
 
     private fun buildBridgeScript(initialMarkdown: String): String {

@@ -1,6 +1,5 @@
 package org.sajith.markdown.plugin.editor.panel
 
-import org.sajith.markdown.plugin.editor.theme.MarkdownPrismThemeCssBuilder
 import org.sajith.markdown.plugin.editor.web.ClasspathResourceReader
 import org.sajith.markdown.plugin.editor.web.MarkdownBridgeScriptBuilder
 import org.sajith.markdown.plugin.editor.web.MarkdownEditorHtmlAssets
@@ -22,14 +21,8 @@ class MarkdownPanelDependencies private constructor(
         return MarkdownEditorHtmlBuilder.build(
             assets = assets,
             fontCss = fontCss,
-            prismThemeCss = buildPrismThemeCss(),
             initialThemeCss = initialThemeCss,
         )
-    }
-
-    /** Builds Prism theme CSS based on explicit or inferred light/dark mode. */
-    fun buildPrismThemeCss(isDark: Boolean = isDarkThemeByInitialCss()): String {
-        return MarkdownPrismThemeCssBuilder.build(isDark)
     }
 
     /** Builds the editor bridge script with concrete JS query injections. */
@@ -62,10 +55,6 @@ class MarkdownPanelDependencies private constructor(
             .replace("\r", "")
     }
 
-    private fun isDarkThemeByInitialCss(): Boolean {
-        return initialThemeCss.contains(DARK_THEME_MARKER)
-    }
-
     private fun loadHtmlAssets(): MarkdownEditorHtmlAssets {
         return MarkdownEditorHtmlAssets(
             editorJs = resourceReader.readText(EDITOR_JS_PATH),
@@ -73,7 +62,6 @@ class MarkdownPanelDependencies private constructor(
     }
 
     companion object {
-        private const val DARK_THEME_MARKER = "#1E2127"
         private const val EDITOR_JS_PATH = "/markit/markit-editor.js"
 
         /** Creates dependency set using classpath resources anchored at the provided class. */

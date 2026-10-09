@@ -12,10 +12,10 @@ object MarkdownFontCssBuilder {
     )
 
     private val fonts = listOf(
-        FontFace("/markit/fonts/atkinson-regular.ttf", "Atkinson Hyperlegible", "normal", "400"),
-        FontFace("/markit/fonts/atkinson-bold.ttf", "Atkinson Hyperlegible", "normal", "700"),
-        FontFace("/markit/fonts/atkinson-italic.ttf", "Atkinson Hyperlegible", "italic", "400"),
-        FontFace("/markit/fonts/atkinson-bold-italic.ttf", "Atkinson Hyperlegible", "italic", "700"),
+        FontFace("/markit/fonts/NV_Palatium-Regular.ttf", "NV Palatium", "normal", "400"),
+        FontFace("/markit/fonts/NV_Palatium-Bold.ttf", "NV Palatium", "normal", "700"),
+        FontFace("/markit/fonts/NV_Palatium-Italic.ttf", "NV Palatium", "italic", "400"),
+        FontFace("/markit/fonts/NV_Palatium-BoldItalic.ttf", "NV Palatium", "italic", "700"),
         FontFace("/markit/fonts/geist-mono-regular.ttf", "Geist Mono", "normal", "400"),
         FontFace("/markit/fonts/geist-mono-bold.ttf", "Geist Mono", "normal", "700"),
     )

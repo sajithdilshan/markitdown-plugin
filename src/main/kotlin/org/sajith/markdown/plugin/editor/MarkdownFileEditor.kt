@@ -95,14 +95,12 @@ class MarkdownFileEditor(
 
     private fun updatePanelTheme() {
         ApplicationManager.getApplication().invokeLater {
-            panel?.updateTheme(buildThemeCss(), isDarkTheme())
+            panel?.updateTheme(buildThemeCss())
         }
     }
 
     private fun buildThemeCss(): String {
-        val isDark = isDarkTheme()
-        val scheme = EditorColorsManager.getInstance().globalScheme
-        return MarkdownThemeCssBuilder.build(isDark = isDark, scheme = scheme)
+        return MarkdownThemeCssBuilder.build(isDark = isDarkTheme())
     }
 
     private fun isDarkTheme(): Boolean = UIUtil.isUnderDarcula()

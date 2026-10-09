@@ -1,244 +1,118 @@
 package org.sajith.markdown.plugin.editor.theme
 
-import com.intellij.openapi.editor.colors.EditorColorsScheme
-
 /**
- * Builds Toast UI editor CSS aligned with the current IntelliJ light/dark theme.
+ * Builds the editor theme CSS for the current IntelliJ light/dark mode. Colours are exposed as
+ * CSS variables consumed by the live-preview styles and code highlighting in the web editor.
  */
 object MarkdownThemeCssBuilder {
+    private data class Palette(
+        val bg: String,
+        val fg: String,
+        val heading: String,
+        val emphasis: String,
+        val link: String,
+        val quote: String,
+        val border: String,
+        val codeBg: String,
+        val codeFg: String,
+        val selection: String,
+        val caret: String,
+        val scrollThumbHover: String,
+        val tokComment: String,
+        val tokKeyword: String,
+        val tokString: String,
+        val tokNumber: String,
+        val tokFunction: String,
+        val tokType: String,
+        val tokProperty: String,
+    )
 
-    /** Returns the full editor CSS for the current theme mode and color scheme. */
-    fun build(isDark: Boolean, scheme: EditorColorsScheme): String {
-        return if (isDark) {
-            buildDarkThemeCss()
-        } else {
-            buildLightThemeCss(scheme)
-        }
-    }
+    // Nord-inspired dark palette
+    private val dark = Palette(
+        bg = "#1E2127",
+        fg = "#7B88A1",
+        heading = "#A8B4C4",
+        emphasis = "#81A1C1",
+        link = "#6EA8B8",
+        quote = "#8597BC",
+        border = "#647080",
+        codeBg = "#272930",
+        codeFg = "#8BA877",
+        selection = "#434C5E",
+        caret = "#D8DEE9",
+        scrollThumbHover = "#5E6779",
+        tokComment = "#8597BC",
+        tokKeyword = "#81A1C1",
+        tokString = "#A3BE8C",
+        tokNumber = "#B48EAD",
+        tokFunction = "#88C0D0",
+        tokType = "#88C0D0",
+        tokProperty = "#81A1C1",
+    )
 
-    private fun buildDarkThemeCss(): String {
-        // Nord-inspired dark theme
-        val bg = "#1E2127"
-        val fg = "#7B88A1"
-        val headingFg = "#A8B4C4"
-        val borderColor = "#647080"
-        val toolbarBg = "#272930"
-        val selectionBg = "#434C5E"
-        val codeBg = "#272930"
-        val hoverBg = "#434C5E"
-        val linkColor = "#6EA8B8"
-        val quoteFg = "#8597BC"
-        val stringColor = "#8BA877"
+    // Solarized-inspired light palette
+    private val light = Palette(
+        bg = "#fdf6e3",
+        fg = "#586e75",
+        heading = "#8B6914",
+        emphasis = "#5A5EAE",
+        link = "#1D6FA8",
+        quote = "#576C74",
+        border = "#7B8C8C",
+        codeBg = "#f5edd9",
+        codeFg = "#1D756E",
+        selection = "#eee8d5",
+        caret = "#dc322f",
+        scrollThumbHover = "#657373",
+        tokComment = "#93a1a1",
+        tokKeyword = "#8B6914",
+        tokString = "#1D756E",
+        tokNumber = "#b46216",
+        tokFunction = "#1D6FA8",
+        tokType = "#1D6FA8",
+        tokProperty = "#1D6FA8",
+    )
 
+    /** Returns the full editor CSS for the current theme mode. */
+    fun build(isDark: Boolean): String = buildCss(if (isDark) dark else light)
+
+    private fun buildCss(p: Palette): String {
         return """
-            body {
-                background: $bg;
-                --markit-toggle-bg: rgba(255, 255, 255, 0.06);
-                --markit-toggle-border: $borderColor;
-                --markit-toggle-fg: $headingFg;
-                --markit-toggle-active-bg: $hoverBg;
-                --markit-toggle-active-fg: #E6EDF3;
+            :root {
+                --md-bg: ${p.bg};
+                --md-fg: ${p.fg};
+                --md-heading: ${p.heading};
+                --md-strong: ${p.heading};
+                --md-em: ${p.emphasis};
+                --md-link: ${p.link};
+                --md-accent: ${p.link};
+                --md-quote: ${p.quote};
+                --md-quote-border: ${p.border};
+                --md-rule: ${p.border};
+                --md-syntax: ${p.border};
+                --md-code-bg: ${p.codeBg};
+                --md-code-fg: ${p.codeFg};
+                --md-selection: ${p.selection};
+                --md-caret: ${p.caret};
+                --md-tok-comment: ${p.tokComment};
+                --md-tok-keyword: ${p.tokKeyword};
+                --md-tok-string: ${p.tokString};
+                --md-tok-number: ${p.tokNumber};
+                --md-tok-function: ${p.tokFunction};
+                --md-tok-type: ${p.tokType};
+                --md-tok-property: ${p.tokProperty};
             }
 
-            /* Main container */
-            .toastui-editor-defaultUI { border-color: $borderColor; background: $bg; }
-            .toastui-editor-main { background: $bg; }
-            .toastui-editor-main-container { background: $bg; }
-            .toastui-editor-ww-container { background: $bg; }
-            .toastui-editor-md-container { background: $bg; }
-
-            /* Toolbar */
-            .toastui-editor-defaultUI-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
-            .toastui-editor-defaultUI-toolbar button { border-color: transparent !important; background-color: transparent; }
-            .toastui-editor-defaultUI-toolbar button:not(:disabled):hover { background-color: $hoverBg; border-color: $borderColor !important; }
-            .toastui-editor-toolbar-icons { filter: invert(0.85) !important; }
-            .toastui-editor-toolbar-icons:not(:disabled).active { filter: invert(0.85) !important; }
-            .toastui-editor-toolbar-divider { background-color: $borderColor; }
-            .toastui-editor-dropdown-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
-
-            /* CodeMirror editor */
-            .cm-editor { color: $fg; background: $bg; }
-            .cm-content { caret-color: $headingFg; }
-            .cm-cursor, .cm-dropCursor { border-left-color: $headingFg; }
-            .cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background: $selectionBg; }
-
-            /* Content */
-            .toastui-editor-contents { color: $fg; }
-            .toastui-editor-contents p, .toastui-editor-contents li { color: $fg; }
-            .toastui-editor-contents h1, .toastui-editor-contents h2,
-            .toastui-editor-contents h3, .toastui-editor-contents h4,
-            .toastui-editor-contents h5, .toastui-editor-contents h6 { color: $headingFg; border-color: $borderColor; }
-            .toastui-editor-contents blockquote { border-color: $borderColor; color: $quoteFg; }
-            .toastui-editor-contents pre { background: $codeBg; }
-            .toastui-editor-contents code { background: $codeBg; color: $stringColor; }
-            .toastui-editor-contents pre code { color: $fg; }
-            .toastui-editor-contents a { color: $linkColor; }
-            .toastui-editor-contents strong { color: $headingFg; }
-            .toastui-editor-contents em { color: #81A1C1; }
-            .toastui-editor-contents table th { background: $toolbarBg; border-color: $borderColor; color: $headingFg; }
-            .toastui-editor-contents th p { color: $headingFg; }
-            .toastui-editor-contents table td { border-color: $borderColor; color: $fg; }
-            .toastui-editor-contents hr { border-color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-contents { color: $fg; }
-            .ProseMirror { color: $fg; caret-color: #D8DEE9; }
-            .ProseMirror .placeholder { color: $borderColor; }
-            .toastui-editor-contents ::selection { background: $selectionBg; }
-
-            /* Mode switch - hidden, we only use WYSIWYG mode */
-            .toastui-editor-mode-switch { display: none !important; }
-
-            /* Markdown-mode (ProseMirror) source view */
-            .toastui-editor-md-container .ProseMirror { background: $bg; color: $fg; caret-color: #D8DEE9; }
-            .toastui-editor-md-container .ProseMirror ::selection { background: $selectionBg; }
-            .toastui-editor-md-container .toastui-editor-md-heading { color: $headingFg; font-weight: 600; }
-            .toastui-editor-md-container .toastui-editor-md-strong { color: $headingFg; font-weight: 700; }
-            .toastui-editor-md-container .toastui-editor-md-emph { color: #81A1C1; font-style: italic; }
-            .toastui-editor-md-container .toastui-editor-md-link { color: $linkColor; }
-            .toastui-editor-md-container .toastui-editor-md-link-url { color: $linkColor; text-decoration: underline; }
-            .toastui-editor-md-container .toastui-editor-md-code { color: $stringColor !important; background-color: $codeBg !important; }
-            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-marked-text { color: $stringColor !important; }
-            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-delimiter { color: $stringColor !important; }
-            .toastui-editor-md-container .toastui-editor-md-code-block { color: $fg; }
-            .toastui-editor-md-container .toastui-editor-md-code-block-line-background { background-color: $codeBg !important; }
-            .toastui-editor-md-container .toastui-editor-md-block-quote { color: $quoteFg; font-style: italic; }
-            .toastui-editor-md-container .toastui-editor-md-thematic-break { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-list-item-style { color: $linkColor; }
-            .toastui-editor-md-container .toastui-editor-md-meta { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-delimiter { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-marked-text { color: $fg; }
-            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-table-cell { color: $fg !important; }
-            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-delimiter { color: $borderColor !important; }
-
-            /* Popups */
-            .toastui-editor-popup { background: $toolbarBg; border-color: $borderColor; }
-            .toastui-editor-popup-body label { color: $fg; }
-            .toastui-editor-popup-body input[type=text] { background: $bg; color: $headingFg; border-color: $borderColor; }
-            .toastui-editor-popup-add-heading ul li { color: $fg; }
-            .toastui-editor-popup-add-heading ul li:hover { background: $hoverBg; }
+            body { background: var(--md-bg); }
 
             /* Scrollbar - hidden by default, visible on scroll or scrollbar hover */
             ::-webkit-scrollbar { width: 8px; height: 8px; }
             ::-webkit-scrollbar-track { background: transparent; }
             ::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background 0.3s; }
             ::-webkit-scrollbar-corner { background: transparent; }
-            ::-webkit-scrollbar-thumb:hover { background: #5E6779; }
-            .is-scrolling ::-webkit-scrollbar-thumb { background: $borderColor; }
-            .is-scrolling ::-webkit-scrollbar-thumb:hover { background: #5E6779; }
+            ::-webkit-scrollbar-thumb:hover { background: ${p.scrollThumbHover}; }
+            .is-scrolling ::-webkit-scrollbar-thumb { background: ${p.border}; }
+            .is-scrolling ::-webkit-scrollbar-thumb:hover { background: ${p.scrollThumbHover}; }
         """.trimIndent()
-    }
-
-    private fun buildLightThemeCss(scheme: EditorColorsScheme): String {
-        // Solarized Light theme (contrast-adjusted)
-        val bg = "#fdf6e3"
-        val fg = "#586e75"
-        val headingFg = "#8B6914"
-        val borderColor = "#7B8C8C"
-        val toolbarBg = "#eee8d5"
-        val selectionBg = "#eee8d5"
-        val codeBg = "#f5edd9"
-        val hoverBg = "#e5dece"
-        val linkColor = "#1D6FA8"
-        val quoteFg = "#576C74"
-        val stringColor = "#1D756E"
-
-        return """
-            body {
-                background: $bg;
-                --markit-toggle-bg: rgba(0, 0, 0, 0.04);
-                --markit-toggle-border: $borderColor;
-                --markit-toggle-fg: $headingFg;
-                --markit-toggle-active-bg: $hoverBg;
-                --markit-toggle-active-fg: #2B2B2B;
-            }
-
-            /* Main container */
-            .toastui-editor-defaultUI { border-color: $borderColor; background: $bg; }
-            .toastui-editor-main { background: $bg; }
-            .toastui-editor-main-container { background: $bg; }
-            .toastui-editor-ww-container { background: $bg; }
-            .toastui-editor-md-container { background: $bg; }
-
-            /* Toolbar */
-            .toastui-editor-defaultUI-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
-            .toastui-editor-defaultUI-toolbar button { border-color: transparent !important; background-color: transparent; }
-            .toastui-editor-defaultUI-toolbar button:not(:disabled):hover { background-color: $hoverBg; border-color: $borderColor !important; }
-            .toastui-editor-toolbar-icons { filter: invert(0) !important; }
-            .toastui-editor-toolbar-icons:not(:disabled).active { filter: invert(0) !important; }
-            .toastui-editor-toolbar-divider { background-color: $borderColor; }
-            .toastui-editor-dropdown-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
-
-            /* CodeMirror editor */
-            .cm-editor { color: $fg; background: $bg; }
-            .cm-content { caret-color: $headingFg; }
-            .cm-cursor, .cm-dropCursor { border-left-color: $headingFg; }
-            .cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background: $selectionBg; }
-
-            /* Content */
-            .toastui-editor-contents { color: $fg; }
-            .toastui-editor-contents p, .toastui-editor-contents li { color: $fg; }
-            .toastui-editor-contents h1, .toastui-editor-contents h2,
-            .toastui-editor-contents h3, .toastui-editor-contents h4,
-            .toastui-editor-contents h5, .toastui-editor-contents h6 { color: $headingFg; border-color: $borderColor; }
-            .toastui-editor-contents blockquote { border-color: $borderColor; color: $quoteFg; }
-            .toastui-editor-contents pre { background: $codeBg; }
-            .toastui-editor-contents code { background: $codeBg; color: $stringColor; }
-            .toastui-editor-contents pre code { color: $fg; }
-            .toastui-editor-contents a { color: $linkColor; }
-            .toastui-editor-contents strong { color: $headingFg; }
-            .toastui-editor-contents em { color: #5A5EAE; }
-            .toastui-editor-contents table th { background: $toolbarBg; border-color: $borderColor; color: $headingFg; }
-            .toastui-editor-contents th p { color: $headingFg; }
-            .toastui-editor-contents table td { border-color: $borderColor; color: $fg; }
-            .toastui-editor-contents hr { border-color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-contents { color: $fg; }
-            .ProseMirror { color: $fg; caret-color: #dc322f; }
-            .ProseMirror .placeholder { color: $borderColor; }
-            .toastui-editor-contents ::selection { background: $selectionBg; }
-
-            /* Mode switch - hidden, we only use WYSIWYG mode */
-            .toastui-editor-mode-switch { display: none !important; }
-
-            /* Markdown-mode (ProseMirror) source view */
-            .toastui-editor-md-container .ProseMirror { background: $bg; color: $fg; caret-color: #dc322f; }
-            .toastui-editor-md-container .ProseMirror ::selection { background: $selectionBg; }
-            .toastui-editor-md-container .toastui-editor-md-heading { color: $headingFg; font-weight: 600; }
-            .toastui-editor-md-container .toastui-editor-md-strong { color: $headingFg; font-weight: 700; }
-            .toastui-editor-md-container .toastui-editor-md-emph { color: #5A5EAE; font-style: italic; }
-            .toastui-editor-md-container .toastui-editor-md-link { color: $linkColor; }
-            .toastui-editor-md-container .toastui-editor-md-link-url { color: $linkColor; text-decoration: underline; }
-            .toastui-editor-md-container .toastui-editor-md-code { color: $stringColor !important; background-color: $codeBg !important; }
-            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-marked-text { color: $stringColor !important; }
-            .toastui-editor-md-container .toastui-editor-md-code.toastui-editor-md-delimiter { color: $stringColor !important; }
-            .toastui-editor-md-container .toastui-editor-md-code-block { color: $fg; }
-            .toastui-editor-md-container .toastui-editor-md-code-block-line-background { background-color: $codeBg !important; }
-            .toastui-editor-md-container .toastui-editor-md-block-quote { color: $quoteFg; font-style: italic; }
-            .toastui-editor-md-container .toastui-editor-md-thematic-break { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-list-item-style { color: $linkColor; }
-            .toastui-editor-md-container .toastui-editor-md-meta { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-delimiter { color: $borderColor; }
-            .toastui-editor-md-container .toastui-editor-md-marked-text { color: $fg; }
-            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-table-cell { color: $fg !important; }
-            .toastui-editor-md-container .toastui-editor-md-table .toastui-editor-md-delimiter { color: $borderColor !important; }
-
-            /* Popups */
-            .toastui-editor-popup { background: $bg; border-color: $borderColor; }
-            .toastui-editor-popup-body label { color: $fg; }
-            .toastui-editor-popup-body input[type=text] { background: $toolbarBg; color: $fg; border-color: $borderColor; }
-            .toastui-editor-popup-add-heading ul li { color: $fg; }
-            .toastui-editor-popup-add-heading ul li:hover { background: $hoverBg; }
-
-            /* Scrollbar - hidden by default, visible on scroll or scrollbar hover */
-            ::-webkit-scrollbar { width: 8px; height: 8px; }
-            ::-webkit-scrollbar-track { background: transparent; }
-            ::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; transition: background 0.3s; }
-            ::-webkit-scrollbar-corner { background: transparent; }
-            ::-webkit-scrollbar-thumb:hover { background: #657373; }
-            .is-scrolling ::-webkit-scrollbar-thumb { background: $borderColor; }
-            .is-scrolling ::-webkit-scrollbar-thumb:hover { background: #657373; }
-        """.trimIndent()
-    }
-
-    private fun colorToHex(color: java.awt.Color): String {
-        return String.format("#%02x%02x%02x", color.red, color.green, color.blue)
     }
 }

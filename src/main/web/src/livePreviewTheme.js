@@ -14,12 +14,13 @@ export const livePreviewTheme = EditorView.baseTheme({
   '.lm-h6': { fontSize: '0.9em', opacity: '0.85' },
   '.lm-setext-rule': { fontSize: '0', lineHeight: '0', padding: '0' },
 
-  '.lm-strong': { fontWeight: '700' },
-  '.lm-em': { fontStyle: 'italic' },
+  '.lm-strong': { fontWeight: '700', color: 'var(--md-strong, inherit)' },
+  '.lm-em': { fontStyle: 'italic', color: 'var(--md-em, inherit)' },
   '.lm-strike': { textDecoration: 'line-through' },
   '.lm-code': {
     fontFamily: "'Geist Mono', monospace",
     fontSize: '0.88em',
+    color: 'var(--md-code-fg, inherit)',
     background: 'var(--md-code-bg, rgba(127, 127, 127, 0.15))',
     borderRadius: '4px',
     padding: '0.1em 0.3em',
@@ -31,9 +32,15 @@ export const livePreviewTheme = EditorView.baseTheme({
     cursor: 'text',
   },
 
-  '.lm-bullet': { display: 'inline-block', width: '1ch', textAlign: 'center', fontWeight: '700' },
-  '.lm-list-number': { fontVariantNumeric: 'tabular-nums' },
-  '.lm-checkbox': { margin: '0 0.35em 0 0', verticalAlign: 'middle', cursor: 'pointer' },
+  '.lm-bullet': {
+    display: 'inline-block',
+    width: '1ch',
+    textAlign: 'center',
+    fontWeight: '700',
+    color: 'var(--md-accent, inherit)',
+  },
+  '.lm-list-number': { fontVariantNumeric: 'tabular-nums', color: 'var(--md-accent, inherit)' },
+  '.lm-checkbox': { margin: '0 0.35em 0 0', verticalAlign: 'middle', cursor: 'pointer', accentColor: 'var(--md-accent, auto)' },
 
   '.lm-quote': {
     borderLeft: '3px solid var(--md-quote-border, rgba(127, 127, 127, 0.45))',
@@ -72,7 +79,14 @@ export const livePreviewTheme = EditorView.baseTheme({
   },
 
   '.lm-table-wrap': { overflowX: 'auto', margin: '0.4em 0', cursor: 'text' },
-  '.lm-table': { borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed', overflowWrap: 'break-word' },
+  '.lm-table': {
+    borderCollapse: 'collapse',
+    width: '100%',
+    tableLayout: 'fixed',
+    overflowWrap: 'break-word',
+    color: 'inherit',
+    font: 'inherit',
+  },
   '.lm-table th, .lm-table td': {
     border: '1px solid var(--md-rule, rgba(127, 127, 127, 0.35))',
     padding: '0.3em 0.6em',
