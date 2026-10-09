@@ -12,8 +12,8 @@ import com.intellij.openapi.fileEditor.FileEditorState
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.ui.JBColor
 import com.intellij.util.Alarm
-import com.intellij.util.ui.UIUtil
 import org.sajith.markdown.plugin.editor.listeners.MarkdownDocumentChangeListener
 import org.sajith.markdown.plugin.editor.listeners.MarkdownThemeChangeListener
 import org.sajith.markdown.plugin.editor.theme.MarkdownThemeCssBuilder
@@ -83,7 +83,8 @@ class MarkdownFileEditor(
     }
 
     private fun registerListeners() {
-        document.addDocumentListener(documentListener)
+        // Removed automatically when this editor is disposed.
+        document.addDocumentListener(documentListener, this)
         themeBusConnection.subscribe(EditorColorsManager.TOPIC, themeChangeListener)
     }
 
@@ -103,7 +104,7 @@ class MarkdownFileEditor(
         return MarkdownThemeCssBuilder.build(isDark = isDarkTheme())
     }
 
-    private fun isDarkTheme(): Boolean = UIUtil.isUnderDarcula()
+    private fun isDarkTheme(): Boolean = !JBColor.isBright()
 
     private fun syncDocumentToPanel() {
         // Prevent JS->document updates from re-triggering a document->panel sync loop.
@@ -159,12 +160,11 @@ class MarkdownFileEditor(
     /** Returns the file currently opened by this editor instance. */
     override fun getFile(): VirtualFile = file
 
-    /** Disposes listeners and pending alarms owned by the editor. */
+    /** Cancels pending alarms and disconnects the theme listener owned by the editor. */
     override fun dispose() {
         syncAlarm.cancelAllRequests()
         writeAlarm.cancelAllRequests()
         themeBusConnection.disconnect()
-        document.removeDocumentListener(documentListener)
     }
 
     companion object {
