@@ -16,6 +16,8 @@
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
+    <!-- JCEF is a separate plugin from 2026.2 (a core alias before), so it must be declared explicitly. -->
+    <depends>com.intellij.modules.jcef</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileEditorProvider
