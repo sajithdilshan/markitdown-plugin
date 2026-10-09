@@ -12,3 +12,6 @@ frontend/dist/
 
 # OS files
 .DS_Store
+
+# Markit web editor sources (bundle in src/main/resources/markit is committed)
+src/main/web/node_modules/

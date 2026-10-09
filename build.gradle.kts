@@ -69,3 +69,14 @@ intellijPlatform {
         }
     }
 }
+
+/**
+ * Rebuilds the CodeMirror editor bundle (src/main/resources/markit/markit-editor.js) from src/main/web.
+ * Not wired into the default build: the bundle is committed so builds don't require Node.
+ */
+tasks.register<Exec>("buildWebEditor") {
+    group = "build"
+    description = "Installs npm dependencies and bundles the web editor with esbuild."
+    workingDir = file("src/main/web")
+    commandLine("sh", "-c", "npm ci && npm run build")
+}
