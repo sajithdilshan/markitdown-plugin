@@ -1,7 +1,7 @@
 package org.sajith.markdown.plugin.editor.web
 
 /**
- * Builds the JavaScript bridge that initializes Toast UI and binds IDE callbacks.
+ * Builds the JavaScript bridge that initializes the CodeMirror editor and binds IDE callbacks.
  */
 object MarkdownBridgeScriptBuilder {
     /** Returns the bootstrap script with already-escaped markdown and injected query handlers. */
@@ -15,78 +15,27 @@ object MarkdownBridgeScriptBuilder {
     ): String {
         return """
             (function() {
-                if (typeof toastui === 'undefined' || !toastui.Editor) {
-                    console.error('[Markit] toastui.Editor is NOT defined');
+                if (typeof createMarkitEditor !== 'function') {
+                    console.error('[Markit] createMarkitEditor is NOT defined');
                     return;
                 }
-                console.log('[Markit] toastui.Editor found, creating editor');
+                console.log('[Markit] Creating CodeMirror editor');
 
-                var plugins = [];
-                if (typeof codeSyntaxHighlightPlugin === 'function' && typeof Prism !== 'undefined') {
-                    plugins.push([codeSyntaxHighlightPlugin, { highlighter: Prism }]);
-                    console.log('[Markit] Code syntax highlighting enabled');
-                }
-
-                var editor = new toastui.Editor({
-                    el: document.querySelector('#editor'),
-                    height: '100%',
-                    initialEditType: 'wysiwyg',
-                    hideModeSwitch: true,
+                var editor = createMarkitEditor({
+                    parent: document.querySelector('#editor'),
                     initialValue: $escapedInitialMarkdown,
-                    usageStatistics: false,
-                    plugins: plugins
+                    onChange: function(md) {
+                        $contentChangedQueryInjection
+                    },
+                    onFocus: function() {
+                        $focusQueryInjection
+                    },
+                    onBlur: function() {
+                        $blurQueryInjection
+                    }
                 });
 
                 window.markitEditor = editor;
-
-                (function createModeToggle() {
-                    var sourceIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><polyline points="7 6 3 10 7 14"/><polyline points="13 6 17 10 13 14"/></svg>';
-                    var previewIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5z"/><circle cx="10" cy="10" r="2.2"/></svg>';
-                    var toggle = document.createElement('div');
-                    toggle.className = 'markit-mode-toggle';
-                    toggle.innerHTML = [
-                        '<button type="button" data-mode="markdown" title="Source view" aria-label="Source view">' + sourceIcon + '</button>',
-                        '<button type="button" data-mode="wysiwyg" title="Preview" aria-label="Preview">' + previewIcon + '</button>'
-                    ].join('');
-                    document.body.appendChild(toggle);
-
-                    var buttons = toggle.querySelectorAll('button');
-                    function setActive(mode) {
-                        for (var i = 0; i < buttons.length; i++) {
-                            if (buttons[i].getAttribute('data-mode') === mode) {
-                                buttons[i].classList.add('is-active');
-                            } else {
-                                buttons[i].classList.remove('is-active');
-                            }
-                        }
-                        document.body.classList.toggle('markit-mode-markdown', mode === 'markdown');
-                        document.body.classList.toggle('markit-mode-wysiwyg', mode === 'wysiwyg');
-                    }
-                    setActive('wysiwyg');
-
-                    for (var j = 0; j < buttons.length; j++) {
-                        buttons[j].addEventListener('click', function(event) {
-                            var mode = event.currentTarget.getAttribute('data-mode');
-                            if (!mode || !window.markitEditor) return;
-                            try {
-                                window.markitEditor.changeMode(mode, true);
-                                setActive(mode);
-                                try { window.markitEditor.moveCursorToStart(false); } catch (e) {}
-                                requestAnimationFrame(function() {
-                                    var targets = document.querySelectorAll(
-                                        '.toastui-editor-md-container, .toastui-editor-ww-container, ' +
-                                        '.toastui-editor-contents, .ProseMirror'
-                                    );
-                                    for (var k = 0; k < targets.length; k++) {
-                                        targets[k].scrollTop = 0;
-                                    }
-                                });
-                            } catch (err) {
-                                console.error('[Markit] changeMode failed', err);
-                            }
-                        });
-                    }
-                })();
 
                 // Show scrollbar on scroll, hide after 1s idle
                 (function() {
@@ -408,19 +357,6 @@ object MarkdownBridgeScriptBuilder {
                 }
 
                 window.markitFindReplace = createFindReplaceBridge(editor);
-
-                editor.on('change', function() {
-                    var md = editor.getMarkdown();
-                    $contentChangedQueryInjection
-                });
-
-                editor.on('focus', function() {
-                    $focusQueryInjection
-                });
-
-                editor.on('blur', function() {
-                    $blurQueryInjection
-                });
 
                 console.log('[Markit] Editor created, notifying ready');
                 $editorReadyQueryInjection

@@ -66,27 +66,13 @@ class MarkdownPanelDependencies private constructor(
 
     private fun loadHtmlAssets(): MarkdownEditorHtmlAssets {
         return MarkdownEditorHtmlAssets(
-            editorCss = resourceReader.readText(TOAST_EDITOR_CSS_PATH),
-            highlightCss = resourceReader.readText(HIGHLIGHT_CSS_PATH),
-            editorJs = resourceReader.readText(TOAST_EDITOR_JS_PATH),
-            prismJs = resourceReader.readText(PRISM_JS_PATH),
-            prismJsonJs = resourceReader.readText(PRISM_JSON_JS_PATH),
-            prismPythonJs = resourceReader.readText(PRISM_PYTHON_JS_PATH),
-            prismSqlJs = resourceReader.readText(PRISM_SQL_JS_PATH),
-            highlightPluginJs = resourceReader.readText(HIGHLIGHT_PLUGIN_JS_PATH),
+            editorJs = resourceReader.readText(EDITOR_JS_PATH),
         )
     }
 
     companion object {
         private const val DARK_THEME_MARKER = "#1E2127"
-        private const val TOAST_EDITOR_CSS_PATH = "/markit/toastui-editor.min.css"
-        private const val HIGHLIGHT_CSS_PATH = "/markit/toastui-editor-plugin-code-syntax-highlight.css"
-        private const val TOAST_EDITOR_JS_PATH = "/markit/toastui-editor-all.min.js"
-        private const val PRISM_JS_PATH = "/markit/prism.js"
-        private const val PRISM_JSON_JS_PATH = "/markit/prism-json.min.js"
-        private const val PRISM_PYTHON_JS_PATH = "/markit/prism-python.min.js"
-        private const val PRISM_SQL_JS_PATH = "/markit/prism-sql.min.js"
-        private const val HIGHLIGHT_PLUGIN_JS_PATH = "/markit/toastui-editor-plugin-code-syntax-highlight.js"
+        private const val EDITOR_JS_PATH = "/markit/markit-editor.js"
 
         /** Creates dependency set using classpath resources anchored at the provided class. */
         fun create(

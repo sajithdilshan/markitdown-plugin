@@ -56,6 +56,12 @@ object MarkdownThemeCssBuilder {
             .toastui-editor-toolbar-divider { background-color: $borderColor; }
             .toastui-editor-dropdown-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
 
+            /* CodeMirror editor */
+            .cm-editor { color: $fg; background: $bg; }
+            .cm-content { caret-color: $headingFg; }
+            .cm-cursor, .cm-dropCursor { border-left-color: $headingFg; }
+            .cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background: $selectionBg; }
+
             /* Content */
             .toastui-editor-contents { color: $fg; }
             .toastui-editor-contents p, .toastui-editor-contents li { color: $fg; }
@@ -160,6 +166,12 @@ object MarkdownThemeCssBuilder {
             .toastui-editor-toolbar-icons:not(:disabled).active { filter: invert(0) !important; }
             .toastui-editor-toolbar-divider { background-color: $borderColor; }
             .toastui-editor-dropdown-toolbar { background-color: $toolbarBg; border-color: $borderColor; }
+
+            /* CodeMirror editor */
+            .cm-editor { color: $fg; background: $bg; }
+            .cm-content { caret-color: $headingFg; }
+            .cm-cursor, .cm-dropCursor { border-left-color: $headingFg; }
+            .cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background: $selectionBg; }
 
             /* Content */
             .toastui-editor-contents { color: $fg; }

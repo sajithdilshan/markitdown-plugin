@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets
 import javax.swing.JComponent
 
 /**
- * JCEF panel hosting a Toast UI WYSIWYG markdown editor.
+ * JCEF panel hosting the CodeMirror-based markdown editor.
  */
 class MarkdownPanel(
     parentDisposable: Disposable,
@@ -102,7 +102,7 @@ class MarkdownPanel(
             browser.cefBrowser,
         )
 
-        // When the page loads, inject bridge and create Toast UI Editor
+        // When the page loads, inject bridge and create the editor
         browser.jbCefClient.addLoadHandler(
             MarkdownEditorLoadHandler(LOG) {
                 val bridgeScript = buildBridgeScript(initialMarkdown)
@@ -165,7 +165,7 @@ class MarkdownPanel(
 
     private fun setEditorMarkdown(markdown: String) {
         // Preserve viewport/cursor when syncing from the IntelliJ document side.
-        executeJs("window.markitEditor.setMarkdown(${escapeForJs(markdown)}, false)")
+        executeJs("window.markitEditor.applyHostMarkdown(${escapeForJs(markdown)})")
     }
 
     private fun executeJs(code: String) {
