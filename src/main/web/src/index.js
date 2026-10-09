@@ -1,9 +1,17 @@
 import { Annotation, EditorState } from '@codemirror/state';
 import { EditorView, drawSelection, keymap } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
-import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { HighlightStyle, defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { tags } from '@lezer/highlight';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
+import { livePreview } from './livePreview.js';
+
+// Default token colours for code, minus the markdown-prose styles that live preview renders itself.
+const proseTags = [tags.heading, tags.link, tags.url, tags.emphasis, tags.strong, tags.strikethrough];
+const codeHighlightStyle = HighlightStyle.define(
+  defaultHighlightStyle.specs.filter((spec) => ![].concat(spec.tag).some((tag) => proseTags.includes(tag))),
+);
 
 /** Marks transactions that originate from the IDE so they are not echoed back to it. */
 const fromHost = Annotation.define();
@@ -50,7 +58,8 @@ function createMarkitEditor(options) {
         drawSelection(),
         EditorView.lineWrapping,
         markdown({ base: markdownLanguage, codeLanguages: languages }),
-        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+        syntaxHighlighting(codeHighlightStyle),
+        livePreview,
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         hostSync,
       ],
