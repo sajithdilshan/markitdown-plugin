@@ -33,6 +33,7 @@ class MarkdownPanelDependencies private constructor(
         blurQueryInjection: String,
         editorReadyQueryInjection: String,
         imageQueryInjection: String,
+        scriptQueryInjection: String,
     ): String {
         return MarkdownBridgeScriptBuilder.build(
             escapedInitialMarkdown = escapedInitialMarkdown,
@@ -41,7 +42,14 @@ class MarkdownPanelDependencies private constructor(
             blurQueryInjection = blurQueryInjection,
             editorReadyQueryInjection = editorReadyQueryInjection,
             imageQueryInjection = imageQueryInjection,
+            scriptQueryInjection = scriptQueryInjection,
         )
+    }
+
+    /** Returns the source of an on-demand script (e.g. "mermaid"), or null for unknown names. */
+    fun readOnDemandScript(name: String): String? {
+        val path = ON_DEMAND_SCRIPTS[name] ?: return null
+        return resourceReader.readText(path)
     }
 
     /** Escapes CSS text for safe insertion into single-quoted JS strings. */
@@ -61,6 +69,7 @@ class MarkdownPanelDependencies private constructor(
 
     companion object {
         private const val EDITOR_JS_PATH = "/markit/markit-editor.js"
+        private val ON_DEMAND_SCRIPTS = mapOf("mermaid" to "/markit/markit-mermaid.js")
 
         /** Creates dependency set using classpath resources anchored at the provided class. */
         fun create(

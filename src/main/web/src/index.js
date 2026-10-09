@@ -6,6 +6,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { livePreview } from './livePreview.js';
 import { imageResolver } from './images.js';
+import { mermaidExtension, refreshDiagramTheme, scriptLoader } from './mermaid.js';
 import { editorTheme, highlightStyle } from './theme.js';
 import { findReplace } from './findReplace.js';
 import { formattingKeymap } from './formatting.js';
@@ -30,7 +31,8 @@ function minimalChange(oldText, newText) {
 
 /**
  * Creates the CodeMirror markdown editor and returns the API used by the Kotlin bridge.
- * Options: { parent, initialValue, onChange(md), onFocus(), onBlur(), resolveImage(src) -> Promise<url> }.
+ * Options: { parent, initialValue, onChange(md), onFocus(), onBlur(), resolveImage(src) -> Promise<url>,
+ *   loadScript(name) -> Promise<source> }.
  */
 function createMarkitEditor(options) {
   const onChange = options.onChange || (() => {});
@@ -59,6 +61,8 @@ function createMarkitEditor(options) {
         editorTheme,
         livePreview,
         options.resolveImage ? imageResolver.of(options.resolveImage) : [],
+        mermaidExtension,
+        options.loadScript ? scriptLoader.of(options.loadScript) : [],
         findReplace,
         formattingKeymap,
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
@@ -76,6 +80,8 @@ function createMarkitEditor(options) {
       if (change) view.dispatch({ changes: change, annotations: fromHost.of(true) });
     },
     focus: () => view.focus(),
+    /** Re-renders theme-dependent widgets (diagrams) after the IDE theme CSS changed. */
+    refreshTheme: () => view.dispatch({ effects: refreshDiagramTheme.of(null) }),
   };
 }
 

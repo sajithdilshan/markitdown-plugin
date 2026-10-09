@@ -12,6 +12,7 @@ object MarkdownBridgeScriptBuilder {
         blurQueryInjection: String,
         editorReadyQueryInjection: String,
         imageQueryInjection: String,
+        scriptQueryInjection: String,
     ): String {
         return """
             (function() {
@@ -36,6 +37,11 @@ object MarkdownBridgeScriptBuilder {
                     resolveImage: function(src) {
                         return new Promise(function(resolve, reject) {
                             $imageQueryInjection
+                        });
+                    },
+                    loadScript: function(name) {
+                        return new Promise(function(resolve, reject) {
+                            $scriptQueryInjection
                         });
                     }
                 });

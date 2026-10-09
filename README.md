@@ -17,6 +17,7 @@ Markit Editor is a Typora-style live preview Markdown editor for IntelliJ IDEA, 
 - **Syntax Highlighting**: Fenced code blocks are highlighted by CodeMirror's language support.
 - **Find & Replace**: `Cmd/Ctrl+F` to find, `Cmd/Ctrl+H` to replace, `Enter` / `Shift+Enter` (or `Cmd/Ctrl+G`, `F3`) for next/previous.
 - **Editing Shortcuts**: `Cmd/Ctrl+B` bold, `Cmd/Ctrl+I` italic, `Cmd/Ctrl+E` inline code; `Enter` continues lists and quotes, `Tab` / `Shift+Tab` indent.
+- **Mermaid Diagrams**: ` ```mermaid ` code blocks render as diagrams (themed for light/dark); while editing the source, a live preview is shown below it. Hover a diagram and click the magnifier to view it enlarged. Mermaid is bundled separately (`markit-mermaid.js`) and only loaded when a document contains a diagram.
 - **Local Images**: Relative and absolute image paths are resolved against the markdown file's directory.
 
 ## Installation
@@ -65,7 +66,7 @@ npm ci && npm run build   # npm run watch for rebuilds on change
 - `src/main/web/src`: The editor itself.
     - `livePreview.js`: Inline and line decorations.
     - `reveal.js`: Caret-based reveal rules.
-    - `images.js` and `tables.js`: Image and table widgets.
+    - `images.js`, `tables.js` and `mermaid.js`: Image, table and diagram widgets.
     - `findReplace.js`: Find & replace.
     - `theme.js` and `livePreviewTheme.js`: Styling.
 

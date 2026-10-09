@@ -37,6 +37,7 @@ class MarkdownPanel(
     private val focusQuery = createQuery()
     private val blurQuery = createQuery()
     private val imageQuery = createQuery()
+    private val scriptQuery = createQuery()
     private val imageResolver = MarkdownImageResolver(baseDirectory)
 
     @Volatile
@@ -83,7 +84,12 @@ class MarkdownPanel(
 
         imageQuery.addHandler { src ->
             imageResolver.resolve(src)?.let { JBCefJSQuery.Response(it) }
-                ?: JBCefJSQuery.Response(null, IMAGE_NOT_FOUND_CODE, "Image not found: $src")
+                ?: JBCefJSQuery.Response(null, NOT_FOUND_CODE, "Image not found: $src")
+        }
+
+        scriptQuery.addHandler { name ->
+            dependencies.readOnDemandScript(name)?.let { JBCefJSQuery.Response(it) }
+                ?: JBCefJSQuery.Response(null, NOT_FOUND_CODE, "Unknown script: $name")
         }
     }
 
@@ -127,6 +133,7 @@ class MarkdownPanel(
     fun updateTheme(css: String) {
         val escaped = dependencies.escapeForSingleQuotedJsString(css)
         executeJs("document.getElementById('dynamic-style').textContent = '$escaped'")
+        executeJs("window.markitEditor && window.markitEditor.refreshTheme()")
     }
 
     private fun buildBridgeScript(initialMarkdown: String): String {
@@ -139,6 +146,11 @@ class MarkdownPanel(
             editorReadyQueryInjection = editorReadyQuery.inject("'ready'"),
             imageQueryInjection = imageQuery.inject(
                 "src",
+                "resolve",
+                "function(code, message) { reject(new Error(message)); }",
+            ),
+            scriptQueryInjection = scriptQuery.inject(
+                "name",
                 "resolve",
                 "function(code, message) { reject(new Error(message)); }",
             ),
@@ -155,13 +167,13 @@ class MarkdownPanel(
     }
 
     override fun dispose() {
-        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, imageQuery).forEach(Disposer::dispose)
+        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, imageQuery, scriptQuery).forEach(Disposer::dispose)
         Disposer.dispose(browser)
     }
 
     companion object {
         private const val EMPTY_QUERY_RESPONSE = ""
-        private const val IMAGE_NOT_FOUND_CODE = 404
+        private const val NOT_FOUND_CODE = 404
         private val LOG = Logger.getInstance(MarkdownPanel::class.java)
 
         /** Escapes arbitrary text as a quoted JavaScript string literal. */

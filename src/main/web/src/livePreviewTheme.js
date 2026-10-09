@@ -80,6 +80,26 @@ export const livePreviewTheme = EditorView.baseTheme({
     opacity: '0.7',
   },
 
+  '.lm-mermaid': {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0.4em 0',
+    padding: '0.6em',
+    borderRadius: '6px',
+    background: 'var(--md-code-bg, rgba(127, 127, 127, 0.1))',
+    cursor: 'pointer',
+    overflowX: 'auto',
+    fontSize: '0.88em',
+  },
+  '.lm-mermaid svg': { maxWidth: '100%', height: 'auto' },
+  '.lm-mermaid-error': {
+    justifyContent: 'flex-start',
+    fontFamily: "'Geist Mono', monospace",
+    whiteSpace: 'pre-wrap',
+    color: 'var(--md-tok-keyword, #c0392b)',
+  },
+
   '.lm-table-wrap': { overflowX: 'auto', margin: '0.4em 0', cursor: 'text' },
   '.lm-table': {
     borderCollapse: 'collapse',
