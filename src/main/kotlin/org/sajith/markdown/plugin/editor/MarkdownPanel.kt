@@ -10,8 +10,6 @@ import org.sajith.markdown.plugin.editor.handlers.MarkdownConsoleDisplayHandler
 import org.sajith.markdown.plugin.editor.handlers.MarkdownEditorLoadHandler
 import org.sajith.markdown.plugin.editor.panel.MarkdownPanelDependencies
 import org.sajith.markdown.plugin.editor.web.MarkdownImageResolver
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 import javax.swing.JComponent
 
@@ -38,7 +36,6 @@ class MarkdownPanel(
     private val contentChangedQuery = createQuery()
     private val focusQuery = createQuery()
     private val blurQuery = createQuery()
-    private val findInPageQuery = createQuery()
     private val imageQuery = createQuery()
     private val imageResolver = MarkdownImageResolver(baseDirectory)
 
@@ -81,11 +78,6 @@ class MarkdownPanel(
 
         blurQuery.addHandler {
             onBlur()
-            JBCefJSQuery.Response(EMPTY_QUERY_RESPONSE)
-        }
-
-        findInPageQuery.addHandler { payload ->
-            onFindInPageRequest(payload)
             JBCefJSQuery.Response(EMPTY_QUERY_RESPONSE)
         }
 
@@ -145,33 +137,12 @@ class MarkdownPanel(
             focusQueryInjection = focusQuery.inject("'focus'"),
             blurQueryInjection = blurQuery.inject("'blur'"),
             editorReadyQueryInjection = editorReadyQuery.inject("'ready'"),
-            findInPageQueryInjection = findInPageQuery.inject("payload"),
             imageQueryInjection = imageQuery.inject(
                 "src",
                 "resolve",
                 "function(code, message) { reject(new Error(message)); }",
             ),
         )
-    }
-
-    private fun onFindInPageRequest(payload: String) {
-        if (payload.isBlank()) return
-        val parts = payload.split('|')
-        when (parts.firstOrNull()) {
-            "find" -> {
-                if (parts.size < 5) return
-                val query = URLDecoder.decode(parts[1], StandardCharsets.UTF_8)
-                val matchCase = parts[2] == "1"
-                val forward = parts[3] == "1"
-                val findNext = parts[4] == "1"
-                if (query.isBlank()) {
-                    browser.cefBrowser.stopFinding(true)
-                    return
-                }
-                browser.cefBrowser.find(query, forward, matchCase, findNext)
-            }
-            "stop" -> browser.cefBrowser.stopFinding(true)
-        }
     }
 
     private fun setEditorMarkdown(markdown: String) {
@@ -184,7 +155,7 @@ class MarkdownPanel(
     }
 
     override fun dispose() {
-        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, findInPageQuery, imageQuery).forEach(Disposer::dispose)
+        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, imageQuery).forEach(Disposer::dispose)
         Disposer.dispose(browser)
     }
 

@@ -1,7 +1,7 @@
 The fonts bundled in this directory are licensed under the SIL Open Font License, Version 1.1.
 
-- Atkinson Hyperlegible: Copyright 2020 Braille Institute of America, Inc.
 - Geist Mono: Copyright 2024 Vercel, Inc.
+- NV Palatium: Copyright 2014 by (URW)++ Design & Development; Copyright 2019 by Daniel Benjamin Miller.
 
 ---
 

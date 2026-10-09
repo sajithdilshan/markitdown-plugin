@@ -27,8 +27,7 @@ object MarkdownEditorHtmlBuilder {
                 <style>
                     :root {
                         --base-size: 18px;
-                        --phi: 1.618;
-                        --body-line-height: calc(var(--base-size) * var(--phi));
+                        --body-line-height: 1.45;
                         --code-size: 16px;
                         --code-line-height: calc(var(--code-size) * 1.5);
                     }

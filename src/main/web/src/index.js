@@ -7,6 +7,8 @@ import { languages } from '@codemirror/language-data';
 import { livePreview } from './livePreview.js';
 import { imageResolver } from './images.js';
 import { editorTheme, highlightStyle } from './theme.js';
+import { findReplace } from './findReplace.js';
+import { formattingKeymap } from './formatting.js';
 
 /** Marks transactions that originate from the IDE so they are not echoed back to it. */
 const fromHost = Annotation.define();
@@ -57,25 +59,22 @@ function createMarkitEditor(options) {
         editorTheme,
         livePreview,
         options.resolveImage ? imageResolver.of(options.resolveImage) : [],
+        findReplace,
+        formattingKeymap,
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         hostSync,
       ],
     }),
   });
 
-  // Minimal diff keeps caret and scroll position stable across whole-document updates.
-  const replaceDoc = (md, annotations) => {
-    const change = minimalChange(view.state.doc.toString(), md || '');
-    if (change) view.dispatch({ changes: change, annotations });
-  };
-
   return {
     view,
     getMarkdown: () => view.state.doc.toString(),
-    /** Editor-side replacement (e.g. find/replace); reported to the IDE like typing. */
-    setMarkdown: (md) => replaceDoc(md, []),
-    /** IDE-side content sync; not echoed back to the IDE. */
-    applyHostMarkdown: (md) => replaceDoc(md, [fromHost.of(true)]),
+    /** IDE-side content sync as a minimal diff (keeps caret and scroll); not echoed back to the IDE. */
+    applyHostMarkdown: (md) => {
+      const change = minimalChange(view.state.doc.toString(), md || '');
+      if (change) view.dispatch({ changes: change, annotations: fromHost.of(true) });
+    },
     focus: () => view.focus(),
   };
 }

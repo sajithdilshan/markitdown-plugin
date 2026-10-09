@@ -9,6 +9,7 @@ object MarkdownThemeCssBuilder {
         val bg: String,
         val fg: String,
         val heading: String,
+        val strong: String,
         val emphasis: String,
         val link: String,
         val quote: String,
@@ -27,41 +28,43 @@ object MarkdownThemeCssBuilder {
         val tokProperty: String,
     )
 
-    // Nord-inspired dark palette
+    // Dark palette from the Dark Glass IDE theme's editor colour scheme
     private val dark = Palette(
-        bg = "#1E2127",
-        fg = "#7B88A1",
-        heading = "#A8B4C4",
-        emphasis = "#81A1C1",
-        link = "#6EA8B8",
-        quote = "#8597BC",
-        border = "#647080",
-        codeBg = "#272930",
-        codeFg = "#8BA877",
-        selection = "#434C5E",
-        caret = "#D8DEE9",
-        scrollThumbHover = "#5E6779",
-        tokComment = "#8597BC",
-        tokKeyword = "#81A1C1",
-        tokString = "#A3BE8C",
-        tokNumber = "#B48EAD",
-        tokFunction = "#88C0D0",
-        tokType = "#88C0D0",
-        tokProperty = "#81A1C1",
+        bg = "#21242A",
+        fg = "#ABB2BF",
+        heading = "#98C379",
+        strong = "#F59762",
+        emphasis = "#F59762",
+        link = "#56B6C2",
+        quote = "#98C379",
+        border = "#404859",
+        codeBg = "#2B2E34",
+        codeFg = "#C678DD",
+        selection = "#404859",
+        caret = "#E6E6E6",
+        scrollThumbHover = "#3C414A",
+        tokComment = "#7F848E",
+        tokKeyword = "#E06C75",
+        tokString = "#E6C07B",
+        tokNumber = "#C678DD",
+        tokFunction = "#98C379",
+        tokType = "#98C379",
+        tokProperty = "#56B6C2",
     )
 
-    // Solarized-inspired light palette
+    // Light palette: e-reader text/background (ebook-fonts.nicoverbruggen.be) with Solarized accents
     private val light = Palette(
-        bg = "#fdf6e3",
-        fg = "#586e75",
+        bg = "#f4efe6",
+        fg = "#1f1a16",
         heading = "#8B6914",
+        strong = "#8B6914",
         emphasis = "#5A5EAE",
         link = "#1D6FA8",
         quote = "#576C74",
         border = "#7B8C8C",
-        codeBg = "#f5edd9",
+        codeBg = "#ebe3d6",
         codeFg = "#1D756E",
-        selection = "#eee8d5",
+        selection = "#e2d8c8",
         caret = "#dc322f",
         scrollThumbHover = "#657373",
         tokComment = "#93a1a1",
@@ -82,7 +85,7 @@ object MarkdownThemeCssBuilder {
                 --md-bg: ${p.bg};
                 --md-fg: ${p.fg};
                 --md-heading: ${p.heading};
-                --md-strong: ${p.heading};
+                --md-strong: ${p.strong};
                 --md-em: ${p.emphasis};
                 --md-link: ${p.link};
                 --md-accent: ${p.link};

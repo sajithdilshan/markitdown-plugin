@@ -1,18 +1,18 @@
 <idea-plugin>
     <id>org.sajith.markdown.plugin</id>
     <name>Markit Editor</name>
-    <version>0.2.0</version>
+    <version>1.0.0</version>
     <vendor>Sajith Edirisinghe</vendor>
 
     <description><![CDATA[
-    A WYSIWYG Markdown editor for IntelliJ IDEA focused on maximum readability and accessibility.
-    Opens as a dedicated tab alongside the default editor, rendering your content in a clean, high-comfort layout designed to eliminate eye strain during long writing sessions.
+    A Typora-style live preview Markdown editor for IntelliJ IDEA focused on comfortable, long-form reading and writing.
+    Opens as a dedicated tab alongside the default editor: the whole document is rendered, and the markdown syntax of the element under the caret is revealed for editing.
 
     Key Features:
-    - High-Legibility Typography: Uses Atkinson Hyperlegible (by the Braille Institute) for body text and Geist Mono (by Vercel) for code blocks.
-    - WYSIWYG Editing: Real-time visual feedback with Toast UI Editor.
+    - Live Preview Editing: headings, emphasis, links, lists, task lists, quotes, code blocks, images and tables render in place; click into an element to edit its markdown.
+    - Reading-Optimised Typography: NV Palatium for body text and Geist Mono (by Vercel) for code.
     - Seamless Sync: Bi-directional synchronization with the standard IntelliJ editor.
-    - Theme Awareness: Automatically adapts to Light, Dark, and Darcula themes.
+    - Theme Awareness: Automatically adapts to Light and Dark IDE themes.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
