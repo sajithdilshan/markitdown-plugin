@@ -15,6 +15,17 @@
     - Theme Awareness: Automatically adapts to Light and Dark IDE themes.
     ]]></description>
 
+    <change-notes><![CDATA[
+    <h3>1.0.0</h3>
+    <ul>
+        <li>Initial release: Typora-style live preview Markdown editor built on CodeMirror 6, opened as a tab alongside the default editor.</li>
+        <li>Live rendering of headings, emphasis, links, lists, task lists, quotes, code blocks, images and tables, with markdown revealed under the caret.</li>
+        <li>Mermaid diagrams rendered inline, with an enlarged view-only popup.</li>
+        <li>Bi-directional sync with the standard IntelliJ editor and automatic Light/Dark theme support.</li>
+    </ul>
+    <p>Full changelogs can be found at <a href="https://github.com/sajithdilshan/markitdown-plugin/tree/main/changelog">https://github.com/sajithdilshan/markitdown-plugin/tree/main/changelog</a></p>
+    ]]></change-notes>
+
     <depends>com.intellij.modules.platform</depends>
     <!-- JCEF is a separate plugin from 2026.2 (a core alias before), so it must be declared explicitly. -->
     <depends>com.intellij.modules.jcef</depends>
