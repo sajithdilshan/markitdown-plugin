@@ -68,6 +68,7 @@ class MarkdownFileEditor(
                 parentDisposable = this,
                 initialMarkdown = document.text,
                 initialThemeCss = buildThemeCss(),
+                baseDirectory = file.parent?.takeIf { it.isInLocalFileSystem }?.toNioPath(),
                 onContentChanged = ::onEditorContentChanged,
                 onFocus = {},
                 onBlur = ::saveDocumentLater,

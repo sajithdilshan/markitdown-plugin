@@ -1,8 +1,25 @@
 import { StateEffect, StateField } from '@codemirror/state';
-import { ViewPlugin } from '@codemirror/view';
+import { EditorView, ViewPlugin } from '@codemirror/view';
 
 /** Sets (or clears, with null) the selection snapshot used for revealing syntax during a mouse drag. */
 export const setFrozen = StateEffect.define();
+
+const setFocused = StateEffect.define();
+
+/** Editor focus mirrored into state, so StateField-based decorations (block widgets) can react to it. */
+const editorFocused = StateField.define({
+  create: () => false,
+  update(value, tr) {
+    for (const effect of tr.effects) if (effect.is(setFocused)) value = effect.value;
+    return value;
+  },
+  provide: () => EditorView.focusChangeEffect.of((state, focusing) => setFocused.of(focusing)),
+});
+
+/** True when the transaction changes what should be revealed beyond selection/doc changes. */
+export function revealInputsChanged(tr) {
+  return tr.effects.some((effect) => effect.is(setFrozen) || effect.is(setFocused));
+}
 
 /**
  * Selection + focus captured on mousedown. While set, reveal decisions use it instead of the live
@@ -48,10 +65,9 @@ const freezeOnMouseDown = ViewPlugin.fromClass(
  * `touches` checks exact range overlap (inline syntax); `touchesLines` expands to whole lines (block syntax).
  * Nothing is revealed while the editor is unfocused or for non-empty selections, so those render fully.
  */
-export function revealContext(view) {
-  const { state } = view;
+export function revealContext(state) {
   const frozen = state.field(frozenSelection, false);
-  const focused = frozen ? frozen.focused : view.hasFocus;
+  const focused = frozen ? frozen.focused : state.field(editorFocused, false);
   // Only carets reveal syntax; a range selection keeps everything rendered, as in Typora.
   const ranges = (frozen ? frozen.selection : state.selection).ranges.filter((range) => range.empty);
 
@@ -62,4 +78,4 @@ export function revealContext(view) {
   return { touches, touchesLines };
 }
 
-export const reveal = [frozenSelection, freezeOnMouseDown];
+export const reveal = [editorFocused, frozenSelection, freezeOnMouseDown];

@@ -12,6 +12,7 @@ object MarkdownBridgeScriptBuilder {
         blurQueryInjection: String,
         editorReadyQueryInjection: String,
         findInPageQueryInjection: String,
+        imageQueryInjection: String,
     ): String {
         return """
             (function() {
@@ -32,6 +33,11 @@ object MarkdownBridgeScriptBuilder {
                     },
                     onBlur: function() {
                         $blurQueryInjection
+                    },
+                    resolveImage: function(src) {
+                        return new Promise(function(resolve, reject) {
+                            $imageQueryInjection
+                        });
                     }
                 });
 

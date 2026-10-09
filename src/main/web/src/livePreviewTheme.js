@@ -60,4 +60,25 @@ export const livePreviewTheme = EditorView.baseTheme({
     verticalAlign: 'middle',
     borderTop: '2px solid var(--md-rule, rgba(127, 127, 127, 0.35))',
   },
+
+  '.lm-image': { display: 'block', margin: '0.4em 0', cursor: 'pointer' },
+  '.lm-image img': { maxWidth: '100%', borderRadius: '4px', display: 'block' },
+  '.lm-image-broken': {
+    display: 'inline-block',
+    padding: '0.1em 0.5em',
+    border: '1px dashed var(--md-rule, rgba(127, 127, 127, 0.5))',
+    borderRadius: '4px',
+    opacity: '0.7',
+  },
+
+  '.lm-table-wrap': { overflowX: 'auto', margin: '0.4em 0', cursor: 'text' },
+  '.lm-table': { borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed', overflowWrap: 'break-word' },
+  '.lm-table th, .lm-table td': {
+    border: '1px solid var(--md-rule, rgba(127, 127, 127, 0.35))',
+    padding: '0.3em 0.6em',
+    textAlign: 'left',
+    verticalAlign: 'top',
+  },
+  '.lm-table th': { fontWeight: '700', background: 'var(--md-code-bg, rgba(127, 127, 127, 0.1))' },
+  '.lm-table-src': { fontFamily: "'Geist Mono', monospace", fontSize: 'var(--code-size, 0.88em)' },
 });

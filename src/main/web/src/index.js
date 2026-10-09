@@ -6,6 +6,7 @@ import { tags } from '@lezer/highlight';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { livePreview } from './livePreview.js';
+import { imageResolver } from './images.js';
 
 // Default token colours for code, minus the markdown-prose styles that live preview renders itself.
 const proseTags = [tags.heading, tags.link, tags.url, tags.emphasis, tags.strong, tags.strikethrough];
@@ -33,7 +34,7 @@ function minimalChange(oldText, newText) {
 
 /**
  * Creates the CodeMirror markdown editor and returns the API used by the Kotlin bridge.
- * Options: { parent, initialValue, onChange(md), onFocus(), onBlur() }.
+ * Options: { parent, initialValue, onChange(md), onFocus(), onBlur(), resolveImage(src) -> Promise<url> }.
  */
 function createMarkitEditor(options) {
   const onChange = options.onChange || (() => {});
@@ -60,6 +61,7 @@ function createMarkitEditor(options) {
         markdown({ base: markdownLanguage, codeLanguages: languages }),
         syntaxHighlighting(codeHighlightStyle),
         livePreview,
+        options.resolveImage ? imageResolver.of(options.resolveImage) : [],
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         hostSync,
       ],

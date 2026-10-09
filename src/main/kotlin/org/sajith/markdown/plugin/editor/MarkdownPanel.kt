@@ -9,8 +9,10 @@ import com.intellij.ui.jcef.JBCefJSQuery
 import org.sajith.markdown.plugin.editor.handlers.MarkdownConsoleDisplayHandler
 import org.sajith.markdown.plugin.editor.handlers.MarkdownEditorLoadHandler
 import org.sajith.markdown.plugin.editor.panel.MarkdownPanelDependencies
+import org.sajith.markdown.plugin.editor.web.MarkdownImageResolver
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
+import java.nio.file.Path
 import javax.swing.JComponent
 
 /**
@@ -20,6 +22,7 @@ class MarkdownPanel(
     parentDisposable: Disposable,
     private val initialMarkdown: String,
     private val initialThemeCss: String = "",
+    baseDirectory: Path? = null,
     private val onContentChanged: (String) -> Unit,
     private val onFocus: () -> Unit,
     private val onBlur: () -> Unit,
@@ -36,6 +39,8 @@ class MarkdownPanel(
     private val focusQuery = createQuery()
     private val blurQuery = createQuery()
     private val findInPageQuery = createQuery()
+    private val imageQuery = createQuery()
+    private val imageResolver = MarkdownImageResolver(baseDirectory)
 
     @Volatile
     private var isEditorReady = false
@@ -82,6 +87,11 @@ class MarkdownPanel(
         findInPageQuery.addHandler { payload ->
             onFindInPageRequest(payload)
             JBCefJSQuery.Response(EMPTY_QUERY_RESPONSE)
+        }
+
+        imageQuery.addHandler { src ->
+            imageResolver.resolve(src)?.let { JBCefJSQuery.Response(it) }
+                ?: JBCefJSQuery.Response(null, IMAGE_NOT_FOUND_CODE, "Image not found: $src")
         }
     }
 
@@ -140,6 +150,11 @@ class MarkdownPanel(
             blurQueryInjection = blurQuery.inject("'blur'"),
             editorReadyQueryInjection = editorReadyQuery.inject("'ready'"),
             findInPageQueryInjection = findInPageQuery.inject("payload"),
+            imageQueryInjection = imageQuery.inject(
+                "src",
+                "resolve",
+                "function(code, message) { reject(new Error(message)); }",
+            ),
         )
     }
 
@@ -173,12 +188,13 @@ class MarkdownPanel(
     }
 
     override fun dispose() {
-        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, findInPageQuery).forEach(Disposer::dispose)
+        listOf(editorReadyQuery, contentChangedQuery, focusQuery, blurQuery, findInPageQuery, imageQuery).forEach(Disposer::dispose)
         Disposer.dispose(browser)
     }
 
     companion object {
         private const val EMPTY_QUERY_RESPONSE = ""
+        private const val IMAGE_NOT_FOUND_CODE = 404
         private val LOG = Logger.getInstance(MarkdownPanel::class.java)
 
         /** Escapes arbitrary text as a quoted JavaScript string literal. */

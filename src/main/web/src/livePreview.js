@@ -1,8 +1,10 @@
 import { syntaxTree } from '@codemirror/language';
 import { Decoration, ViewPlugin } from '@codemirror/view';
-import { reveal, revealContext, setFrozen } from './reveal.js';
+import { reveal, revealContext, revealInputsChanged } from './reveal.js';
 import { BulletWidget, CheckboxWidget, HorizontalRuleWidget } from './widgets.js';
 import { livePreviewTheme } from './livePreviewTheme.js';
+import { ImageWidget } from './images.js';
+import { tables } from './tables.js';
 
 const hide = Decoration.replace({});
 const line = (cls) => Decoration.line({ class: cls });
@@ -29,7 +31,7 @@ const horizontalRule = Decoration.replace({ widget: new HorizontalRuleWidget() }
 function buildDecorations(view) {
   const { state } = view;
   const { doc } = state;
-  const { touches, touchesLines } = revealContext(view);
+  const { touches, touchesLines } = revealContext(state);
   const out = [];
   const hideRange = (from, to) => to > from && out.push(hide.range(from, to));
   // Hides a mark plus the single space that follows it ("# ", "> ", "- ").
@@ -88,6 +90,22 @@ function buildDecorations(view) {
               hideRange(close.from, node.to);
             }
             break;
+          }
+          case 'Table':
+            // Rendered by the tables StateField; source is shown verbatim while editing.
+            return false;
+          case 'Image': {
+            const url = node.getChild('URL');
+            const [open, close] = node.getChildren('LinkMark');
+            if (!url || !close) break;
+            const widget = new ImageWidget(doc.sliceString(url.from, url.to), doc.sliceString(open.to, close.from));
+            // While editing the source, keep the preview visible right after it.
+            out.push(
+              touches(node.from, node.to)
+                ? Decoration.widget({ widget, side: 1 }).range(node.to)
+                : Decoration.replace({ widget }).range(node.from, node.to),
+            );
+            return false;
           }
           case 'Autolink': {
             const url = node.getChild('URL');
@@ -160,7 +178,7 @@ const livePreviewPlugin = ViewPlugin.fromClass(
         update.viewportChanged ||
         update.focusChanged ||
         syntaxTree(update.state) !== syntaxTree(update.startState) ||
-        update.transactions.some((tr) => tr.effects.some((e) => e.is(setFrozen)))
+        update.transactions.some(revealInputsChanged)
       ) {
         this.decorations = buildDecorations(update.view);
       }
@@ -170,4 +188,4 @@ const livePreviewPlugin = ViewPlugin.fromClass(
 );
 
 /** Typora-style live preview: rendered markdown, raw syntax revealed where the caret is. */
-export const livePreview = [reveal, livePreviewPlugin, livePreviewTheme];
+export const livePreview = [reveal, livePreviewPlugin, tables, livePreviewTheme];
