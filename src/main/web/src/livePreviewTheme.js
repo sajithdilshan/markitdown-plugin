@@ -5,11 +5,12 @@ import { EditorView } from '@codemirror/view';
  * with neutral fallbacks so the editor is readable before theming.
  */
 export const livePreviewTheme = EditorView.baseTheme({
-  '.lm-heading': { fontWeight: '700', color: 'var(--md-heading, inherit)' },
-  '.lm-h1': { fontSize: '1.9em', lineHeight: '1.3', paddingTop: '0.6em' },
-  '.lm-h2': { fontSize: '1.55em', lineHeight: '1.3', paddingTop: '0.5em' },
-  '.lm-h3': { fontSize: '1.3em', lineHeight: '1.35', paddingTop: '0.4em' },
-  '.lm-h4': { fontSize: '1.12em' },
+  // Headings scale from the 17px body: 1.9 / 1.5 / 1.25 / 1.1 / 1 / 0.9.
+  '.lm-heading': { fontWeight: '700', lineHeight: '1.3', color: 'var(--md-heading, inherit)' },
+  '.lm-h1': { fontSize: '1.9em', paddingTop: '0.4em', paddingBottom: '0.2em' },
+  '.lm-h2': { fontSize: '1.5em', paddingTop: '0.35em', paddingBottom: '0.15em' },
+  '.lm-h3': { fontSize: '1.25em' },
+  '.lm-h4': { fontSize: '1.1em' },
   '.lm-h5': { fontSize: '1em' },
   '.lm-h6': { fontSize: '0.9em', opacity: '0.85' },
   '.lm-setext-rule': { fontSize: '0', lineHeight: '0', padding: '0' },

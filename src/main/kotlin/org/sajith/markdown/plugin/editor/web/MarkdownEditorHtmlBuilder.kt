@@ -26,8 +26,8 @@ object MarkdownEditorHtmlBuilder {
                 <style id="dynamic-style">$initialThemeCss</style>
                 <style>
                     :root {
-                        --base-size: 18px;
-                        --body-line-height: 1.45;
+                        --base-size: 17px;
+                        --body-line-height: 1.65;
                         --code-size: 16px;
                         --code-line-height: calc(var(--code-size) * 1.5);
                     }
