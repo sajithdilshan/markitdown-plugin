@@ -28,7 +28,6 @@ object MarkdownThemeCssBuilder {
         val tokProperty: String,
     )
 
-    // Dark palette from the Dark Glass IDE theme's editor colour scheme
     private val dark = Palette(
         bg = "#21242A",
         fg = "#ABB2BF",
@@ -52,7 +51,6 @@ object MarkdownThemeCssBuilder {
         tokProperty = "#56B6C2",
     )
 
-    // Light palette: e-reader text/background (ebook-fonts.nicoverbruggen.be) with Solarized accents
     private val light = Palette(
         bg = "#f4efe6",
         fg = "#1f1a16",
