@@ -27,6 +27,10 @@ Markit Editor is a Typora-style live preview Markdown editor for IntelliJ IDEA, 
 
 ## Installation
 
+### From JetBrains Marketplace
+
+Install [Markit Editor](https://plugins.jetbrains.com/plugin/34927-markit-editor) from the JetBrains Marketplace, or in IntelliJ IDEA go to **Settings → Plugins → Marketplace** and search for "Markit Editor".
+
 ### From Source
 
 1. Clone this repository.
