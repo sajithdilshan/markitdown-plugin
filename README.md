@@ -1,6 +1,11 @@
+![Markit Editor icon](src/main/resources/META-INF/pluginIcon.svg)
+
 # Markit Editor
 
 Markit Editor is a Typora-style live preview Markdown editor for IntelliJ IDEA, focused on comfortable reading and writing. It opens as a dedicated tab alongside the default editor and renders the whole document in place; the markdown syntax of the element under the caret is revealed for editing and rendered again when the caret leaves.
+
+## Demo
+![Markit Editor demo](docs/preview.gif)
 
 ## Features
 
