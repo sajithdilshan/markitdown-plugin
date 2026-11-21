@@ -63,17 +63,23 @@ const freezeOnMouseDown = ViewPlugin.fromClass(
 /**
  * Builds the reveal predicates for one decoration pass.
  * `touches` checks exact range overlap (inline syntax); `touchesLines` expands to whole lines (block syntax).
- * Nothing is revealed while the editor is unfocused or for non-empty selections, so those render fully.
+ * Nothing is revealed while the editor is unfocused. Inline syntax is only revealed by carets; a range
+ * selection also reveals a block it lies entirely inside, so selecting text in a revealed code block or
+ * table keeps its source showing instead of snapping back to the rendered widget.
  */
 export function revealContext(state) {
   const frozen = state.field(frozenSelection, false);
   const focused = frozen ? frozen.focused : state.field(editorFocused, false);
-  // Only carets reveal syntax; a range selection keeps everything rendered, as in Typora.
-  const ranges = (frozen ? frozen.selection : state.selection).ranges.filter((range) => range.empty);
+  const allRanges = (frozen ? frozen.selection : state.selection).ranges;
+  const carets = allRanges.filter((range) => range.empty);
+  const selections = allRanges.filter((range) => !range.empty);
 
-  const touches = (from, to) => focused && ranges.some((range) => from <= range.to && to >= range.from);
-  const touchesLines = (from, to) =>
-    touches(state.doc.lineAt(from).from, state.doc.lineAt(Math.min(to, state.doc.length)).to);
+  const touches = (from, to) => focused && carets.some((range) => from <= range.to && to >= range.from);
+  const touchesLines = (from, to) => {
+    const start = state.doc.lineAt(from).from;
+    const end = state.doc.lineAt(Math.min(to, state.doc.length)).to;
+    return touches(start, end) || (focused && selections.some((range) => range.from >= start && range.to <= end));
+  };
 
   return { touches, touchesLines };
 }

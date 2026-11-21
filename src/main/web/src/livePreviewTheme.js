@@ -61,6 +61,7 @@ export const livePreviewTheme = EditorView.baseTheme({
   },
   '.lm-code-first': { borderTopLeftRadius: '6px', borderTopRightRadius: '6px', paddingTop: '0.4em' },
   '.lm-code-last': { borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', paddingBottom: '0.4em' },
+  '.lm-selected, .lm-selected .lm-code': { background: 'var(--md-selection)' },
 
   '.lm-hr': {
     display: 'inline-block',

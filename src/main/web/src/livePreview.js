@@ -5,6 +5,7 @@ import { BulletWidget, CheckboxWidget, HorizontalRuleWidget } from './widgets.js
 import { livePreviewTheme } from './livePreviewTheme.js';
 import { ImageWidget } from './images.js';
 import { tables } from './tables.js';
+import { selectionMark } from './selectionMark.js';
 
 const hide = Decoration.replace({});
 const line = (cls) => Decoration.line({ class: cls });
@@ -188,4 +189,4 @@ const livePreviewPlugin = ViewPlugin.fromClass(
 );
 
 /** Typora-style live preview: rendered markdown, raw syntax revealed where the caret is. */
-export const livePreview = [reveal, livePreviewPlugin, tables, livePreviewTheme];
+export const livePreview = [reveal, livePreviewPlugin, tables, selectionMark, livePreviewTheme];
