@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.sajith.markdown.plugin</id>
     <name>Markit Editor</name>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <vendor>Sajith Edirisinghe</vendor>
 
     <description><![CDATA[
@@ -16,6 +16,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    <h3>1.1.0</h3>
+    <ul>
+        <li>Selecting text inside a code block, table or other block now keeps its markdown source visible instead of switching back to the rendered view.</li>
+        <li>Selected text is now highlighted inside code blocks, inline code and table source.</li>
+        <li>Updated Mermaid to 12 and other bundled dependencies to their latest stable releases.</li>
+    </ul>
     <h3>1.0.1</h3>
     <ul>
         <li>The mouse pointer now shows a text cursor over the document (and a hand over images, checkboxes and diagrams).</li>
